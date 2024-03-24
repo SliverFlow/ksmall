@@ -1,0 +1,13 @@
+server:
+  port: 6060
+
+log:
+  level: info
+  prefix: 'github.com/SliverFlow/ksmall/httpserver/user'
+  format: console
+  director: 'log/user'
+  encode-level: LowercaseColorLevelEncoder
+  stacktrace-key: stacktrace
+  max-age: 0
+  show-line: true
+  log-in-console: true

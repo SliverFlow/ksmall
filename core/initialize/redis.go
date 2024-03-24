@@ -1,0 +1,24 @@
+package initialize
+
+import (
+	"context"
+	"fmt"
+	"github.com/SliverFlow/ksmall/core/config"
+	"github.com/redis/go-redis/v9"
+)
+
+func InitRedisConn(c *config.Redis) *redis.Client {
+
+	cli := redis.NewClient(&redis.Options{
+		Addr:     fmt.Sprintf("%s:%d", c.Host, c.Port),
+		Password: c.Password,
+		DB:       c.DB,
+	})
+
+	_, err := cli.Ping(context.Background()).Result()
+	if err != nil {
+		panic(err)
+	}
+
+	return cli
+}

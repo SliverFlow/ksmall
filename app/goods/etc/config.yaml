@@ -1,0 +1,13 @@
+server:
+  port: 2020
+
+log:
+  level: info
+  prefix: 'github.com/SliverFlow/ksmall/httpserver/goods'
+  format: console
+  director: 'log/goods'
+  encode-level: LowercaseColorLevelEncoder
+  stacktrace-key: stacktrace
+  max-age: 0
+  show-line: true
+  log-in-console: true

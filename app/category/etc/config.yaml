@@ -1,0 +1,13 @@
+server:
+  port: 1010
+
+log:
+  level: info
+  prefix: 'github.com/SliverFlow/ksmall/httpserver/category'
+  format: console
+  director: 'log/category'
+  encode-level: LowercaseColorLevelEncoder
+  stacktrace-key: stacktrace
+  max-age: 0
+  show-line: true
+  log-in-console: true

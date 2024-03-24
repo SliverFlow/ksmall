@@ -1,0 +1,13 @@
+server:
+  port: 4040
+
+log:
+  level: info
+  prefix: 'github.com/SliverFlow/ksmall/httpserver/search'
+  format: console
+  director: 'log/search'
+  encode-level: LowercaseColorLevelEncoder
+  stacktrace-key: stacktrace
+  max-age: 0
+  show-line: true
+  log-in-console: true
