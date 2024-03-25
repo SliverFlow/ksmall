@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-func InitMysqlConn(c *config.Mysql) *gorm.DB {
+func Mysql(c *config.Mysql) *gorm.DB {
 	dsn := c.Dsn()
 
 	mc := mysql.Config{

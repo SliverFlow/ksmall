@@ -10,6 +10,7 @@ import (
 	"github.com/SliverFlow/ksmall/app/user/internal/biz"
 	"github.com/SliverFlow/ksmall/app/user/internal/config"
 	"github.com/SliverFlow/ksmall/app/user/internal/service"
+	"github.com/SliverFlow/ksmall/core/middleware"
 	"github.com/SliverFlow/ksmall/core/server"
 	"github.com/google/wire"
 	"go.uber.org/zap"
@@ -17,5 +18,5 @@ import (
 
 // wireApp init kratos application.
 func wireApp(c *config.Possess, log *zap.Logger) *server.HttpServer {
-	panic(wire.Build(api.ProviderSet, service.ProviderSet, biz.ProviderSet, server.NewHttpServer, config.NewServerConfig))
+	panic(wire.Build(middleware.ProviderSet, api.ProviderSet, service.ProviderSet, biz.ProviderSet, server.NewHttpServer, config.NewServerConfig))
 }

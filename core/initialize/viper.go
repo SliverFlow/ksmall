@@ -6,9 +6,12 @@ import (
 	"github.com/spf13/viper"
 )
 
-func Viper(path string, watch func()) *viper.Viper {
+func Viper(path string, env *string, watch func()) *viper.Viper {
 	v := viper.New()
-	v.SetConfigFile(path)
+	if env == nil {
+		*env = "dev"
+	}
+	v.SetConfigFile(fmt.Sprintf("%s/config-%s.yaml", path, *env))
 	v.SetConfigType("yaml")
 
 	err := v.ReadInConfig()

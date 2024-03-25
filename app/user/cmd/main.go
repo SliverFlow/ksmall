@@ -1,17 +1,20 @@
 package main
 
 import (
+	"flag"
 	"github.com/SliverFlow/ksmall/app/user/internal/config"
 	"github.com/SliverFlow/ksmall/core/initialize"
 	"go.uber.org/zap"
 )
 
-const path = "./app/user/etc/config.yaml"
+const path = "./app/user/etc"
 
 func main() {
 
+	env := flag.String("env", "dev", "")
+
 	var c config.Possess
-	v := initialize.Viper(path, nil)
+	v := initialize.Viper(path, env, nil)
 	_ = v.Unmarshal(&c)
 
 	// 初始化日志

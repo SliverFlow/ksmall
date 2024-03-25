@@ -1,11 +1,11 @@
 server:
-  port: 6060
-
+  port: 2020
+  name: "github.com/SliverFlow/ksmall/httpserver/goods"
 log:
   level: info
-  prefix: 'github.com/SliverFlow/ksmall/httpserver/user'
+  prefix: 'github.com/SliverFlow/ksmall/httpserver/goods'
   format: console
-  director: 'log/user'
+  director: 'log/goods'
   encode-level: LowercaseColorLevelEncoder
   stacktrace-key: stacktrace
   max-age: 0

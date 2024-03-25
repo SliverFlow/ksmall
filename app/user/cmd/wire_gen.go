@@ -11,6 +11,7 @@ import (
 	"github.com/SliverFlow/ksmall/app/user/internal/biz"
 	"github.com/SliverFlow/ksmall/app/user/internal/config"
 	"github.com/SliverFlow/ksmall/app/user/internal/service"
+	"github.com/SliverFlow/ksmall/core/middleware"
 	"github.com/SliverFlow/ksmall/core/server"
 	"go.uber.org/zap"
 )
@@ -22,7 +23,9 @@ func wireApp(c *config.Possess, log *zap.Logger) *server.HttpServer {
 	configServer := config.NewServerConfig(c)
 	userUsecase := biz.NewUserUsecase(log)
 	userService := service.NewUserService(log, userUsecase)
-	group := api.NewApiGroup(userService)
+	cors := middleware.NewCorsMiddleware(log)
+	timeout := middleware.NewTimeoutMiddleware(log, configServer)
+	group := api.NewApiGroup(userService, cors, timeout)
 	httpServer := server.NewHttpServer(log, configServer, group)
 	return httpServer
 }

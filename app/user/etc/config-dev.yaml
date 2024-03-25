@@ -1,0 +1,26 @@
+server:
+  port: 6060
+  name: 'github.com/SliverFlow/ksmall/httpserver/user'
+  timeout: 5
+
+log:
+  level: info
+  prefix: 'github.com/SliverFlow/ksmall/httpserver/user'
+  format: console
+  director: 'log/user'
+  encode-level: LowercaseColorLevelEncoder
+  stacktrace-key: stacktrace
+  max-age: 0
+  show-line: true
+  log-in-console: true
+
+#mysql:
+#  username: root
+#  password: root
+#  host: 127.0.0.1
+#  port: 3306
+#  db-name: ksmall-user
+#  log: info
+#  max-open-conns: 10
+#  max-idle-conns: 10
+#  config: charset=utf8mb4&parseTime=True&loc=Local

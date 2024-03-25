@@ -1,11 +1,11 @@
 server:
-  port: 1010
-
+  port: 4040
+  name: github.com/SliverFlow/ksmall/httpserver/search
 log:
   level: info
-  prefix: 'github.com/SliverFlow/ksmall/httpserver/category'
+  prefix: 'github.com/SliverFlow/ksmall/httpserver/search'
   format: console
-  director: 'log/category'
+  director: 'log/search'
   encode-level: LowercaseColorLevelEncoder
   stacktrace-key: stacktrace
   max-age: 0
