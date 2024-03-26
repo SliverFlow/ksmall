@@ -1,11 +1,11 @@
 server:
   port: 3030
-  name: github.com/SliverFlow/ksmall/httpserver/order
+  name: github.com/SliverFlow/ksmall/HttpServer/order
 log:
   level: info
-  prefix: 'github.com/SliverFlow/ksmall/httpserver/order'
+  prefix: 'github.com/SliverFlow/ksmall/HttpServer/order'
   format: console
-  director: 'log/order'
+  director: 'log/http/order'
   encode-level: LowercaseColorLevelEncoder
   stacktrace-key: stacktrace
   max-age: 0

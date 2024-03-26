@@ -1,11 +1,11 @@
 server:
   port: 5050
-  name: github.com/SliverFlow/ksmall/httpserver/shopcart
+  name: github.com/SliverFlow/ksmall/HttpServer/shopcart
 log:
   level: info
-  prefix: 'github.com/SliverFlow/ksmall/httpserver/shopcart'
+  prefix: 'github.com/SliverFlow/ksmall/HttpServer/shopcart'
   format: console
-  director: 'log/shopcart'
+  director: 'log/http/shopcart'
   encode-level: LowercaseColorLevelEncoder
   stacktrace-key: stacktrace
   max-age: 0

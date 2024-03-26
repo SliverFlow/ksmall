@@ -31,6 +31,7 @@ func Mysql(c *config.Mysql) *gorm.DB {
 
 	if err != nil {
 		panic(err)
+		return nil
 	}
 
 	db, _ := DB.DB()

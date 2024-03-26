@@ -18,4 +18,11 @@ func main() {
 		panic(err)
 	}
 
+	logger := initialize.Zap(c.Log)
+
+	s := wireApp(&c, logger)
+	if s == nil {
+		logger.Info("s is nil")
+	}
+
 }

@@ -18,6 +18,7 @@ func Redis(c *config.Redis) *redis.Client {
 	_, err := cli.Ping(context.Background()).Result()
 	if err != nil {
 		panic(err)
+		return nil
 	}
 
 	return cli

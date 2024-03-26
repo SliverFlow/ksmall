@@ -1,0 +1,33 @@
+server:
+  name: 'github.com/SliverFlow/ksmall/GrpcServer/user'
+  port: 6061
+
+log:
+  level: info
+  prefix: 'github.com/SliverFlow/ksmall/GrpcServer/user'
+  format: console
+  director: 'log/grpc/user'
+  encode-level: LowercaseColorLevelEncoder
+  stacktrace-key: stacktrace
+  max-age: 0
+  show-line: true
+  log-in-console: true
+
+mysql:
+  username: root
+  password: root
+  host: 127.0.0.1
+  port: 3306
+  db-name: ksmall-user
+  log: info
+  max-open-conns: 10
+  max-idle-conns: 10
+  config: charset=utf8mb4&parseTime=True&loc=Local
+
+redis:
+  host: 127.0.0.1
+  port: 6379
+  password: ''
+  db: 0
+  store: 'ksmall-user'
+  expire: 5
