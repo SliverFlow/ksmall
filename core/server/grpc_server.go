@@ -8,6 +8,6 @@ import (
 type GrpcServer struct {
 }
 
-func NewGrpcServer(c *config.Server, logger *zap.Logger) *GrpcServer {
+func NewGrpcServer(c *config.RpcServer, logger *zap.Logger) *GrpcServer {
 	return &GrpcServer{}
 }

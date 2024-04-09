@@ -13,7 +13,7 @@ type HttpServer struct {
 	Server *http.Server
 }
 
-func NewHttpServer(logger *zap.Logger, c *config.Server, api ApiGroup) *HttpServer {
+func NewHttpServer(logger *zap.Logger, c *config.HttpServer, api ApiGroup) *HttpServer {
 
 	R := gin.Default()
 	api.InitApi(R)

@@ -13,10 +13,10 @@ import (
 
 type Timeout struct {
 	logger *zap.Logger
-	config *config.Server
+	config *config.HttpServer
 }
 
-func NewTimeoutMiddleware(logger *zap.Logger, c *config.Server) *Timeout {
+func NewTimeoutMiddleware(logger *zap.Logger, c *config.HttpServer) *Timeout {
 	return &Timeout{
 		logger: logger,
 		config: c,
