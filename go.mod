@@ -13,12 +13,13 @@ require (
 	github.com/redis/go-redis/v9 v9.5.1
 	github.com/spf13/viper v1.18.2
 	go.uber.org/zap v1.27.0
-	golang.org/x/crypto v0.21.0
+	golang.org/x/crypto v0.22.0
 	gorm.io/driver/mysql v1.5.6
-	gorm.io/gorm v1.25.8
+	gorm.io/gorm v1.25.9
 )
 
 require (
+	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/bytedance/sonic v1.11.3 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d // indirect
@@ -28,7 +29,7 @@ require (
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
-	github.com/go-sql-driver/mysql v1.7.0 // indirect
+	github.com/go-sql-driver/mysql v1.8.1 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
@@ -58,7 +59,7 @@ require (
 	golang.org/x/arch v0.7.0 // indirect
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
 	golang.org/x/net v0.22.0 // indirect
-	golang.org/x/sys v0.18.0 // indirect
+	golang.org/x/sys v0.19.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	google.golang.org/protobuf v1.33.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
