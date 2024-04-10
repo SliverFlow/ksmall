@@ -13,3 +13,7 @@ log:
   max-age: 0
   show-line: true
   log-in-console: true
+
+userRpc:
+  type: 'direct' # direct 直联 ，etcd 为使用 etcd 注册中心
+  ip: '127.0.0.1:6061'
