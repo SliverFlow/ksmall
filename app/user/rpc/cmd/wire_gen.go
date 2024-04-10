@@ -7,7 +7,9 @@
 package main
 
 import (
+	"github.com/SliverFlow/ksmall/app/user/rpc/internal/biz"
 	"github.com/SliverFlow/ksmall/app/user/rpc/internal/config"
+	"github.com/SliverFlow/ksmall/app/user/rpc/internal/data"
 	"github.com/SliverFlow/ksmall/core/server"
 	"go.uber.org/zap"
 )
@@ -16,6 +18,10 @@ import (
 
 func wireApp(c *config.Possess, logger *zap.Logger) *server.GrpcServer {
 	rpcServer := config.NewServerConfig(c)
-	grpcServer := server.NewGrpcServer(rpcServer, logger)
+	db := data.NewDB(c)
+	client := data.NewRDB(c)
+	userRepo := data.NewUserRepo(logger, db, client, c)
+	userUsecase := biz.NewUserUsecase(userRepo, logger)
+	grpcServer := server.NewGrpcServer(rpcServer, logger, userUsecase)
 	return grpcServer
 }

@@ -15,7 +15,7 @@ log:
 
 mysql:
   username: root
-  password: root
+  password:
   host: 127.0.0.1
   port: 3306
   db-name: ksmall-user
@@ -25,9 +25,9 @@ mysql:
   config: charset=utf8mb4&parseTime=True&loc=Local
 
 redis:
-  host: 127.0.0.1
+  host: 120.77.237.246
   port: 6379
-  password: ''
+  password: 'wjh20000905'
   db: 0
   store: 'ksmall-user'
   expire: 5
