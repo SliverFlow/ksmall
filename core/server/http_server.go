@@ -13,14 +13,12 @@ type HttpServer struct {
 	Server *http.Server
 }
 
+// NewHttpServer 创建 http 服务
 func NewHttpServer(logger *zap.Logger, c *config.HttpServer, api ApiGroup) *HttpServer {
-
 	R := gin.Default()
 	api.InitApi(R)
-
 	time.Sleep(500 * time.Millisecond)
 	logger.Info(fmt.Sprintf("[项目运行于]：http://127.0.0.1:%d", c.Port))
-
 	return &HttpServer{
 		Server: &http.Server{
 			Addr:           fmt.Sprintf(":%d", c.Port),

@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+// Zap the zap config
 type Zap struct {
 	Level         string `mapstructure:"level" json:"level" yaml:"level"`                            // 级别
 	Prefix        string `mapstructure:"prefix" json:"prefix" yaml:"prefix"`                         // 日志前缀

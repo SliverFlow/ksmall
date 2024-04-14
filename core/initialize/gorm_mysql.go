@@ -10,6 +10,7 @@ import (
 	"time"
 )
 
+// Mysql 初始化 gorm mysql 连接
 func Mysql(c *config.Mysql) *gorm.DB {
 	dsn := c.Dsn()
 

@@ -4,12 +4,12 @@ import "github.com/SliverFlow/ksmall/common/constant"
 
 // ZError 自定义错误
 type ZError struct {
-	Code    uint
+	Code    uint32
 	Message string
 }
 
 // New 创建自定义错误
-func New(code uint, message string) *ZError {
+func New(code uint32, message string) *ZError {
 	return &ZError{
 		Code:    code,
 		Message: message,
@@ -22,7 +22,7 @@ func (e *ZError) Error() string {
 }
 
 // NewWithCode 通过code创建自定义错误
-func NewWithCode(code uint) *ZError {
+func NewWithCode(code uint32) *ZError {
 	message, ok := constant.MessageCodeMap[code]
 	if !ok {
 		message = "未知错误"

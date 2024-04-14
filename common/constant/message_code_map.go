@@ -1,7 +1,7 @@
 package constant
 
 func init() {
-	MessageCodeMap = make(map[uint]string)
+	MessageCodeMap = make(map[uint32]string)
 	MessageCodeMap[ServerErrorCode] = "服务器错误"
 	MessageCodeMap[RequestFailedCode] = "请求失败"
 	MessageCodeMap[NotFoundCode] = "未找到"
@@ -22,4 +22,4 @@ func init() {
 
 }
 
-var MessageCodeMap map[uint]string
+var MessageCodeMap map[uint32]string

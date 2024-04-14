@@ -16,6 +16,7 @@ type Timeout struct {
 	config *config.HttpServer
 }
 
+// NewTimeoutMiddleware 创建超时中间件
 func NewTimeoutMiddleware(logger *zap.Logger, c *config.HttpServer) *Timeout {
 	return &Timeout{
 		logger: logger,

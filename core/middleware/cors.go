@@ -10,6 +10,7 @@ type Cors struct {
 	logger *zap.Logger
 }
 
+// NewCorsMiddleware 创建跨域中间件
 func NewCorsMiddleware(logger *zap.Logger) *Cors {
 	return &Cors{
 		logger: logger,

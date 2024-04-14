@@ -1,14 +1,15 @@
 package biz
 
 import (
+	"context"
+	"github.com/SliverFlow/ksmall/app/user/http/internal/model/reply"
 	"github.com/SliverFlow/ksmall/app/user/rpc/pb"
 	"go.uber.org/zap"
 )
 
 type UserUsecase struct {
 	userRpc pb.UserClient
-
-	logger *zap.Logger
+	logger  *zap.Logger
 }
 
 func NewUserUsecase(logger *zap.Logger, userRpc pb.UserClient) *UserUsecase {
@@ -16,4 +17,13 @@ func NewUserUsecase(logger *zap.Logger, userRpc pb.UserClient) *UserUsecase {
 		logger:  logger,
 		userRpc: userRpc,
 	}
+}
+
+func (uu *UserUsecase) FindById(ctx context.Context, id uint) (*reply.UserInfoReply, error) {
+	_, err := uu.userRpc.FindByUsername(ctx, &pb.FindByUsernameReq{Username: "id"})
+	if err != nil {
+		return nil, err
+	}
+
+	return &reply.UserInfoReply{}, nil
 }

@@ -6,6 +6,7 @@ import (
 	"github.com/spf13/viper"
 )
 
+// Viper 初始化 viper 配置
 func Viper(path string, env *string, watch func()) *viper.Viper {
 	v := viper.New()
 	if env == nil {

@@ -5,17 +5,18 @@ import (
 	"github.com/SliverFlow/ksmall/common/constant"
 	"github.com/SliverFlow/ksmall/common/zerror"
 	"github.com/gin-gonic/gin"
+	"google.golang.org/grpc/status"
 	"net/http"
 )
 
 type SuccessResponse struct {
-	Code    uint        `json:"code"`
+	Code    uint32      `json:"code"`
 	Data    interface{} `json:"data"`
 	Message string      `json:"message"`
 }
 
 type ErrorResponse struct {
-	Code    uint   `json:"code"`
+	Code    uint32 `json:"code"`
 	Message string `json:"message"`
 }
 
@@ -53,7 +54,7 @@ func FailWithMessage(message string, c *gin.Context) {
 }
 
 // FailWithDetail 请求失败，返 code 和消息
-func FailWithDetail(code uint, message string, c *gin.Context) {
+func FailWithDetail(code uint32, message string, c *gin.Context) {
 	c.JSON(http.StatusOK, &ErrorResponse{Code: code, Message: message})
 }
 
@@ -64,6 +65,15 @@ func FailWithError(err error, c *gin.Context) {
 		c.JSON(http.StatusOK, &ErrorResponse{Code: zerr.Code, Message: zerr.Message})
 		return
 	}
+
+	if fromError, ok := status.FromError(err); ok {
+		code := uint32(fromError.Code())
+		if msg, ok := constant.MessageCodeMap[code]; ok {
+			c.JSON(http.StatusOK, &ErrorResponse{Code: code, Message: msg})
+			return
+		}
+	}
+
 	// err is not a ZError, return a generic error message
 	c.JSON(http.StatusOK, &ErrorResponse{Code: constant.RequestFailedCode, Message: "服务器开小差了，请稍后再试"})
 }

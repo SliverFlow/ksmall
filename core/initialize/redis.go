@@ -7,6 +7,7 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
+// Redis 初始化 Redis 连接
 func Redis(c *config.Redis) *redis.Client {
 
 	cli := redis.NewClient(&redis.Options{
