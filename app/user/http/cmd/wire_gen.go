@@ -10,7 +10,7 @@ import (
 	"github.com/SliverFlow/ksmall/app/user/http/api/v1"
 	"github.com/SliverFlow/ksmall/app/user/http/internal/biz"
 	"github.com/SliverFlow/ksmall/app/user/http/internal/config"
-	"github.com/SliverFlow/ksmall/app/user/http/internal/rpc_server"
+	"github.com/SliverFlow/ksmall/app/user/http/internal/rpc_client"
 	"github.com/SliverFlow/ksmall/app/user/http/internal/service"
 	"github.com/SliverFlow/ksmall/core/middleware"
 	"github.com/SliverFlow/ksmall/core/server"
@@ -22,7 +22,7 @@ import (
 // wireApp init kratos application.
 func wireApp(c *config.Possess, log *zap.Logger) *server.HttpServer {
 	httpServer := config.NewServerConfig(c)
-	userClient := rpc_server.NewUserRpc(c)
+	userClient := rpc_client.NewUserRpc(c)
 	userUsecase := biz.NewUserUsecase(log, userClient)
 	userService := service.NewUserService(log, userUsecase)
 	cors := middleware.NewCorsMiddleware(log)

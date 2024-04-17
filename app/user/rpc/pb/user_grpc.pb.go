@@ -23,8 +23,9 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserClient interface {
-	FindByUsername(ctx context.Context, in *FindByUsernameReq, opts ...grpc.CallOption) (*UserInfo, error)
-	Delete(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	UserFindByUsername(ctx context.Context, in *UserFindByUsernameReq, opts ...grpc.CallOption) (*UserInfo, error)
+	UserPageList(ctx context.Context, in *UserPageListReq, opts ...grpc.CallOption) (*UserPageListReply, error)
+	UserDelete(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type userClient struct {
@@ -35,18 +36,27 @@ func NewUserClient(cc grpc.ClientConnInterface) UserClient {
 	return &userClient{cc}
 }
 
-func (c *userClient) FindByUsername(ctx context.Context, in *FindByUsernameReq, opts ...grpc.CallOption) (*UserInfo, error) {
+func (c *userClient) UserFindByUsername(ctx context.Context, in *UserFindByUsernameReq, opts ...grpc.CallOption) (*UserInfo, error) {
 	out := new(UserInfo)
-	err := c.cc.Invoke(ctx, "/pb.user/findByUsername", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pb.user/userFindByUsername", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userClient) Delete(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *userClient) UserPageList(ctx context.Context, in *UserPageListReq, opts ...grpc.CallOption) (*UserPageListReply, error) {
+	out := new(UserPageListReply)
+	err := c.cc.Invoke(ctx, "/pb.user/userPageList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) UserDelete(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, "/pb.user/delete", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pb.user/userDelete", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -57,8 +67,9 @@ func (c *userClient) Delete(ctx context.Context, in *IdReq, opts ...grpc.CallOpt
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility
 type UserServer interface {
-	FindByUsername(context.Context, *FindByUsernameReq) (*UserInfo, error)
-	Delete(context.Context, *IdReq) (*emptypb.Empty, error)
+	UserFindByUsername(context.Context, *UserFindByUsernameReq) (*UserInfo, error)
+	UserPageList(context.Context, *UserPageListReq) (*UserPageListReply, error)
+	UserDelete(context.Context, *IdReq) (*emptypb.Empty, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -66,11 +77,14 @@ type UserServer interface {
 type UnimplementedUserServer struct {
 }
 
-func (UnimplementedUserServer) FindByUsername(context.Context, *FindByUsernameReq) (*UserInfo, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindByUsername not implemented")
+func (UnimplementedUserServer) UserFindByUsername(context.Context, *UserFindByUsernameReq) (*UserInfo, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserFindByUsername not implemented")
 }
-func (UnimplementedUserServer) Delete(context.Context, *IdReq) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+func (UnimplementedUserServer) UserPageList(context.Context, *UserPageListReq) (*UserPageListReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserPageList not implemented")
+}
+func (UnimplementedUserServer) UserDelete(context.Context, *IdReq) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserDelete not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 
@@ -85,38 +99,56 @@ func RegisterUserServer(s grpc.ServiceRegistrar, srv UserServer) {
 	s.RegisterService(&User_ServiceDesc, srv)
 }
 
-func _User_FindByUsername_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindByUsernameReq)
+func _User_UserFindByUsername_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserFindByUsernameReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServer).FindByUsername(ctx, in)
+		return srv.(UserServer).UserFindByUsername(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.user/findByUsername",
+		FullMethod: "/pb.user/userFindByUsername",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).FindByUsername(ctx, req.(*FindByUsernameReq))
+		return srv.(UserServer).UserFindByUsername(ctx, req.(*UserFindByUsernameReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _User_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _User_UserPageList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserPageListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).UserPageList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.user/userPageList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).UserPageList(ctx, req.(*UserPageListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_UserDelete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(IdReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServer).Delete(ctx, in)
+		return srv.(UserServer).UserDelete(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.user/delete",
+		FullMethod: "/pb.user/userDelete",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).Delete(ctx, req.(*IdReq))
+		return srv.(UserServer).UserDelete(ctx, req.(*IdReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -129,12 +161,16 @@ var User_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*UserServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "findByUsername",
-			Handler:    _User_FindByUsername_Handler,
+			MethodName: "userFindByUsername",
+			Handler:    _User_UserFindByUsername_Handler,
 		},
 		{
-			MethodName: "delete",
-			Handler:    _User_Delete_Handler,
+			MethodName: "userPageList",
+			Handler:    _User_UserPageList_Handler,
+		},
+		{
+			MethodName: "userDelete",
+			Handler:    _User_UserDelete_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

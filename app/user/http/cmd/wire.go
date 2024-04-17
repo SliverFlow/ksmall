@@ -9,7 +9,7 @@ import (
 	"github.com/SliverFlow/ksmall/app/user/http/api"
 	"github.com/SliverFlow/ksmall/app/user/http/internal/biz"
 	"github.com/SliverFlow/ksmall/app/user/http/internal/config"
-	"github.com/SliverFlow/ksmall/app/user/http/internal/rpc_server"
+	"github.com/SliverFlow/ksmall/app/user/http/internal/rpc_client"
 	"github.com/SliverFlow/ksmall/app/user/http/internal/service"
 	"github.com/SliverFlow/ksmall/core/middleware"
 	"github.com/SliverFlow/ksmall/core/server"
@@ -19,5 +19,5 @@ import (
 
 // wireApp init kratos application.
 func wireApp(c *config.Possess, log *zap.Logger) *server.HttpServer {
-	panic(wire.Build(middleware.ProviderSet, api.ProviderSet, service.ProviderSet, biz.ProviderSet, rpc_server.ProviderSet, server.NewHttpServer, config.NewServerConfig))
+	panic(wire.Build(middleware.ProviderSet, api.ProviderSet, service.ProviderSet, biz.ProviderSet, rpc_client.ProviderSet, server.NewHttpServer, config.NewServerConfig))
 }

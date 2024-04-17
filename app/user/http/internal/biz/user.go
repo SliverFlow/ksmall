@@ -20,7 +20,7 @@ func NewUserUsecase(logger *zap.Logger, userRpc pb.UserClient) *UserUsecase {
 }
 
 func (uu *UserUsecase) FindById(ctx context.Context, id uint) (*reply.UserInfoReply, error) {
-	_, err := uu.userRpc.FindByUsername(ctx, &pb.FindByUsernameReq{Username: "id"})
+	_, err := uu.userRpc.UserFindByUsername(ctx, &pb.UserFindByUsernameReq{Username: "id"})
 	if err != nil {
 		return nil, err
 	}

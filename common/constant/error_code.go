@@ -25,3 +25,7 @@ const (
 	TokenInvalidCode = 300000 // token无效
 	TokenExpiredCode = 300001 // token过期
 )
+
+const (
+	UserPageListErrorCode = 400000 // 用户分页查询失败
+)

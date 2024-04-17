@@ -76,3 +76,17 @@ func (ur *userRepo) FindByUsername(ctx context.Context, username string) (*model
 
 	return &user, nil
 }
+
+// PageList 分页查询用户
+func (ur *userRepo) PageList(ctx context.Context, limit int64, offset int64) ([]*model.User, int64, error) {
+	db := ur.db.WithContext(ctx).Model(&model.User{})
+	var users []*model.User
+	var total int64
+	if err := db.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+	if err := db.Limit(int(limit)).Offset(int(offset)).Find(&users).Error; err != nil {
+		return nil, 0, err
+	}
+	return users, total, nil
+}

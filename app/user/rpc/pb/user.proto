@@ -3,35 +3,40 @@ syntax = "proto3";
 package pb;
 
 option go_package = "./;pb";
+
 import "google/protobuf/empty.proto";
 
-message FindByUsernameReq {
+
+message UserFindByUsernameReq {
   string Username = 1;
 }
-
 message UserInfo {
   int64 Id = 1;
   string Uuid = 2;
   string WxOpenId = 3;
   string Username = 4;
-  string Password = 5;
   string Email = 6;
   string Phone = 7;
   int64 RoleId = 8;
   string Avatar = 9;
   int64 Status = 10;
-  int64 DeleteFlag = 11;
   int64 CreateTime = 12;
   int64 UpdateTime = 13;
-  int64 DeleteTime = 14;
-
 }
-
 message IdReq {
   int64 Id = 1;
 }
+message UserPageListReq {
+  int64 Limit = 1;
+  int64 Offset = 2;
+}
+message UserPageListReply {
+  repeated UserInfo List = 1;
+  int64 Total = 2;
+}
 
 service user {
-  rpc findByUsername (FindByUsernameReq) returns (UserInfo);
-  rpc delete (IdReq) returns (google.protobuf.Empty);
+  rpc userFindByUsername (UserFindByUsernameReq) returns (UserInfo);
+  rpc userPageList (UserPageListReq) returns (UserPageListReply) ;
+  rpc userDelete (IdReq) returns (google.protobuf.Empty);
 }

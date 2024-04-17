@@ -1,4 +1,4 @@
-package rpc_server
+package rpc_client
 
 import (
 	"fmt"

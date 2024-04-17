@@ -7,4 +7,5 @@ import (
 
 type IUserRepo interface {
 	FindByUsername(ctx context.Context, username string) (*model.User, error)
+	PageList(ctx context.Context, limit int64, offset int64) ([]*model.User, int64, error)
 }
