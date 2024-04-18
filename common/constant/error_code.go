@@ -1,6 +1,8 @@
 package constant
 
 const (
+	GormNotFoundCode      = 2
+	ServerInternalCode    = 5      // 服务器内部错误
 	ServerErrorCode       = 500    // 服务器错误
 	RequestTimeoutCode    = 408    // 请求超时
 	RequestFailedCode     = 100000 // 请求失败
@@ -19,6 +21,7 @@ const (
 	UserPasswordCode    = 200002 // 用户密码错误
 	UserLoginExpCode    = 200003 // 用户登录过期
 	UserCreateErrorCode = 200004 // 用户创建失败
+	UserLoginTypeCode   = 200005 // 用户登录类型错误
 )
 
 const (
@@ -28,4 +31,12 @@ const (
 
 const (
 	UserPageListErrorCode = 400000 // 用户分页查询失败
+)
+
+const (
+	CaptchaSendErrorCode  = 500000 // 验证码发送失败
+	CaptchaCheckErrorCode = 500001 // 验证码校验失败
+	CaptchaExpireCode     = 500002 // 验证码过期
+	CaptchaInvalidCode    = 500003 // 验证码无效
+	CaptchaTypeCode       = 500004 // 验证码类型错误
 )

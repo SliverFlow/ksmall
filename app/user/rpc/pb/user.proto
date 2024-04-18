@@ -7,9 +7,6 @@ option go_package = "./;pb";
 import "google/protobuf/empty.proto";
 
 
-message UserFindByUsernameReq {
-  string Username = 1;
-}
 message UserInfo {
   int64 Id = 1;
   string Uuid = 2;
@@ -38,10 +35,32 @@ message UserPageListReply {
   repeated UserInfo List = 1;
   int64 Total = 2;
 }
+message UserFindByEmailReq {
+  string Email = 1;
+}
+message UserFindByPhoneReq {
+  string Phone = 1;
+}
+message UserCreateReq {
+  string Uuid = 2;
+  string WxOpenId = 3;
+  string Nickname = 4;
+  string Email = 6;
+  string Phone = 7;
+  int64 RoleId = 8;
+  string Avatar = 9;
+  int64 Male = 11;
+  int64 Birthday = 12;
+}
+message UserIdReply {
+  int64 Id = 1;
+}
 
 service user {
-  rpc userFindByUsername (UserFindByUsernameReq) returns (UserInfo);
   rpc userFind (IdReq) returns (UserInfo);
+  rpc userCreate (UserCreateReq) returns (UserIdReply);
+  rpc userFindByEmail (UserFindByEmailReq) returns (UserInfo);
+  rpc userFindByPhone (UserFindByPhoneReq) returns (UserInfo);
   rpc userPageList (UserPageListReq) returns (UserPageListReply) ;
   rpc userDelete (IdReq) returns (google.protobuf.Empty);
 }

@@ -19,6 +19,9 @@ func init() {
 	MessageCodeMap[UserLoginExpCode] = "用户登录过期"
 	MessageCodeMap[UserCreateErrorCode] = "用户创建失败"
 	MessageCodeMap[RequestTimeoutCode] = "请求超时，请刷新再使用。。。"
+	MessageCodeMap[CaptchaTypeCode] = "验证码类型错误"
+	MessageCodeMap[UserLoginTypeCode] = "用户登录类型错误"
+	MessageCodeMap[ServerInternalCode] = "服务器内部错误"
 
 }
 

@@ -20,8 +20,9 @@ func NewUserService(logger *zap.Logger, userUsecase *biz.UserUsecase) *UserServi
 }
 
 func (us *UserService) InitUserRouter(r *gin.RouterGroup) {
-	r.GET("find", us.Find)
-	r.POST("login", us.Login)
+	r.GET("find", us.Find)        // 根据id查询用户
+	r.POST("login", us.Login)     // 登录
+	r.POST("captcha", us.Captcha) // 获取验证码
 }
 
 // Find
@@ -35,6 +36,7 @@ func (us *UserService) Find(c *gin.Context) {
 		return
 	}
 	us.logger.Info("[http] user login request", zap.Any("req", req))
+
 	userInfoReply, err := us.userUsecase.Find(c, req.Id)
 	if err != nil {
 		us.logger.Error("[http] user find by id error", zap.Error(err))
@@ -55,6 +57,36 @@ func (us *UserService) Login(c *gin.Context) {
 		response.FailWithMessage(util.ValidaMsg(err, &req), c)
 		return
 	}
+
 	us.logger.Info("[http] user login request", zap.Any("req", req))
+	userInfo, err := us.userUsecase.Login(c, &req)
+	if err != nil {
+		us.logger.Error("[http] user login error", zap.Error(err))
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.OkWithData(userInfo, c)
+}
+
+// Captcha
+// @Author: [github.com/SliverFlow]
+// @Desc: 获取验证码
+func (us *UserService) Captcha(c *gin.Context) {
+	var req request.CaptchaReq
+	if err := c.ShouldBindJSON(&req); err != nil {
+		us.logger.Error("[http] user captcha params error", zap.Error(err))
+		response.FailWithMessage(util.ValidaMsg(err, &req), c)
+		return
+	}
+
+	us.logger.Info("[http] user captcha request", zap.Any("req", req))
+
+	if err := us.userUsecase.Captcha(c, req.Account, req.Type); err != nil {
+		us.logger.Error("[http] user captcha error", zap.Error(err))
+		response.FailWithError(err, c)
+		return
+	}
+
 	response.Ok(c)
 }

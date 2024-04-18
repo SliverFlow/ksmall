@@ -8,3 +8,11 @@ type LoginReq struct {
 	Captcha string `json:"captcha" binding:"required" msg:"验证码不能为空"`
 	Type    int64  `json:"type" binding:"required" msg:"类型不能为空"`
 }
+
+// CaptchaReq
+// @Author: [github.com/SliverFlow]
+// @Desc: 获取验证码请求入参
+type CaptchaReq struct {
+	Account string `json:"account" binding:"required" msg:"账号不能为空"`
+	Type    int64  `json:"type" binding:"required" msg:"类型不能为空"`
+}

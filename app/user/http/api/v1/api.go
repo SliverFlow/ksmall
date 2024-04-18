@@ -25,6 +25,7 @@ func NewApiGroup(
 	}
 }
 
+// InitApi 初始化api
 func (api *Group) InitApi(r *gin.Engine) {
 	v1 := r.Group("api/v1")
 	userGroup := v1.Group("user", api.cors.Handle(), api.timeout.Handle())
