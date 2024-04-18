@@ -15,13 +15,8 @@ import (
 type userRepo struct {
 	logger *zap.Logger
 	db     *gorm.DB
-	rdb    *redis.Client
+	*userRDB
 }
-
-var (
-	rdbBaseKey    string        = ""
-	rdbBaseExpire time.Duration = 1 * time.Minute
-)
 
 func NewUserRepo(
 	logger *zap.Logger,
@@ -29,43 +24,17 @@ func NewUserRepo(
 	rdb *redis.Client,
 	c *config.Possess,
 ) *userRepo {
-
 	var user model.User
-
-	rdbBaseKey = fmt.Sprintf("%s:%s:", c.Redis.Store, user.TableName())
-	rdbBaseExpire = time.Duration(c.Redis.Expire) * time.Minute
-
-	return &userRepo{
+	userRepo := userRepo{
 		logger: logger,
 		db:     db,
-		rdb:    rdb,
+		userRDB: &userRDB{
+			userRDBBaseKey:    fmt.Sprintf("%s:%s:", c.Redis.Store, user.TableName()),
+			userRDBBaseExpire: time.Duration(c.Redis.Expire) * time.Minute,
+			rdb:               rdb,
+		},
 	}
-}
-
-// getRdbKey 获取 redis 存储 key
-func (ur *userRepo) getRdbKey(id int64) string {
-	return fmt.Sprintf("%s%d", rdbBaseKey, id)
-}
-
-// getBaseExpire 获取 redis 过期时间
-func (ur *userRepo) getBaseExpire() time.Duration {
-	return rdbBaseExpire
-}
-
-// getBaseExpire 获取 redis 过期时间 分钟
-func (ur *userRepo) getExpireMinute(expire int64) time.Duration {
-	if expire <= 0 {
-		return ur.getBaseExpire()
-	}
-	return time.Duration(expire) * time.Minute
-}
-
-// getBaseExpire 获取 redis 过期时间 秒
-func (ur *userRepo) getExpireSecond(expire int64) time.Duration {
-	if expire <= 0 {
-		return ur.getBaseExpire()
-	}
-	return time.Duration(expire) * time.Second
+	return &userRepo
 }
 
 // PageList 分页查询用户
