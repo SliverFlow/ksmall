@@ -12,8 +12,7 @@ type User struct {
 	Id            int64  // id
 	Uuid          string // uuid
 	WxOpenId      string // 微信 open id
-	Username      string // 用户名
-	Password      string // 密码
+	Nickname      string // 昵称
 	Male          int64  // 1 男 2 女
 	Email         string // 邮箱
 	Phone         string //
@@ -38,7 +37,7 @@ var UserCol = struct {
 	Id            string
 	Uuid          string
 	WxOpenId      string
-	Username      string
+	Nickname      string
 	Password      string
 	Male          string
 	Email         string
@@ -58,7 +57,7 @@ var UserCol = struct {
 	Id:            "id",
 	Uuid:          "uuid",
 	WxOpenId:      "wx_open_id",
-	Username:      "username",
+	Nickname:      "nickname",
 	Password:      "password",
 	Male:          "mail",
 	Email:         "email",

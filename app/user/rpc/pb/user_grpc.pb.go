@@ -24,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserClient interface {
 	UserFindByUsername(ctx context.Context, in *UserFindByUsernameReq, opts ...grpc.CallOption) (*UserInfo, error)
+	UserFind(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*UserInfo, error)
 	UserPageList(ctx context.Context, in *UserPageListReq, opts ...grpc.CallOption) (*UserPageListReply, error)
 	UserDelete(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
@@ -39,6 +40,15 @@ func NewUserClient(cc grpc.ClientConnInterface) UserClient {
 func (c *userClient) UserFindByUsername(ctx context.Context, in *UserFindByUsernameReq, opts ...grpc.CallOption) (*UserInfo, error) {
 	out := new(UserInfo)
 	err := c.cc.Invoke(ctx, "/pb.user/userFindByUsername", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) UserFind(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*UserInfo, error) {
+	out := new(UserInfo)
+	err := c.cc.Invoke(ctx, "/pb.user/userFind", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -68,6 +78,7 @@ func (c *userClient) UserDelete(ctx context.Context, in *IdReq, opts ...grpc.Cal
 // for forward compatibility
 type UserServer interface {
 	UserFindByUsername(context.Context, *UserFindByUsernameReq) (*UserInfo, error)
+	UserFind(context.Context, *IdReq) (*UserInfo, error)
 	UserPageList(context.Context, *UserPageListReq) (*UserPageListReply, error)
 	UserDelete(context.Context, *IdReq) (*emptypb.Empty, error)
 	mustEmbedUnimplementedUserServer()
@@ -79,6 +90,9 @@ type UnimplementedUserServer struct {
 
 func (UnimplementedUserServer) UserFindByUsername(context.Context, *UserFindByUsernameReq) (*UserInfo, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserFindByUsername not implemented")
+}
+func (UnimplementedUserServer) UserFind(context.Context, *IdReq) (*UserInfo, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserFind not implemented")
 }
 func (UnimplementedUserServer) UserPageList(context.Context, *UserPageListReq) (*UserPageListReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserPageList not implemented")
@@ -113,6 +127,24 @@ func _User_UserFindByUsername_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServer).UserFindByUsername(ctx, req.(*UserFindByUsernameReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_UserFind_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).UserFind(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.user/userFind",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).UserFind(ctx, req.(*IdReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -163,6 +195,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "userFindByUsername",
 			Handler:    _User_UserFindByUsername_Handler,
+		},
+		{
+			MethodName: "userFind",
+			Handler:    _User_UserFind_Handler,
 		},
 		{
 			MethodName: "userPageList",

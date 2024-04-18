@@ -15,10 +15,12 @@ func TestRpcServer(t *testing.T) {
 		log.Fatalf("did not connect: %v", err)
 		return
 	}
-	defer conn.Close()
+	defer func() {
+		_ = conn.Close()
+	}()
 
 	c := pb.NewUserClient(conn)
-	_, err = c.FindByUsername(context.Background(), &pb.FindByUsernameReq{Username: "ge"})
+	_, err = c.UserFindByUsername(context.Background(), &pb.UserFindByUsernameReq{Username: "ge"})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}

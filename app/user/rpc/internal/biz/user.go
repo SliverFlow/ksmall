@@ -7,7 +7,6 @@ import (
 	"github.com/SliverFlow/ksmall/common/constant"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
@@ -40,7 +39,7 @@ func (uu *UserUsecase) RegisterServer(server *grpc.Server) *grpc.Server {
 // @Author:  [github.com/SliverFlow]
 // @Desc: 根据用户名查询用户
 func (uu *UserUsecase) UserFindByUsername(ctx context.Context, req *pb.UserFindByUsernameReq) (*pb.UserInfo, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UserFindByUsername not implemented")
+	return &pb.UserInfo{}, nil
 }
 
 // UserPageList 重写 grpc server 方法
@@ -56,7 +55,7 @@ func (uu *UserUsecase) UserPageList(ctx context.Context, req *pb.UserPageListReq
 		userInfos = append(userInfos, &pb.UserInfo{
 			Id:         user.Id,
 			WxOpenId:   user.WxOpenId,
-			Username:   user.Username,
+			Nickname:   user.Nickname,
 			Email:      user.Email,
 			Phone:      user.Phone,
 			RoleId:     user.RoleId,
@@ -76,5 +75,12 @@ func (uu *UserUsecase) UserPageList(ctx context.Context, req *pb.UserPageListReq
 // @Author: [github.com/SliverFlow]
 // @Desc: 删除用户
 func (uu *UserUsecase) UserDelete(ctx context.Context, req *pb.IdReq) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UserDelete not implemented")
+	return &emptypb.Empty{}, nil
+}
+
+// UserFind 重写 grpc server 方法
+// @Author: [github.com/SliverFlow]
+// @Desc: 查询用户
+func (uu *UserUsecase) UserFind(ctx context.Context, req *pb.IdReq) (*pb.UserInfo, error) {
+	return &pb.UserInfo{}, nil
 }

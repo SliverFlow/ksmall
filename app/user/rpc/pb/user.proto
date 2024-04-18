@@ -14,14 +14,18 @@ message UserInfo {
   int64 Id = 1;
   string Uuid = 2;
   string WxOpenId = 3;
-  string Username = 4;
+  string Nickname = 4;
   string Email = 6;
   string Phone = 7;
   int64 RoleId = 8;
   string Avatar = 9;
   int64 Status = 10;
-  int64 CreateTime = 12;
-  int64 UpdateTime = 13;
+  int64 Male = 11;
+  int64 Birthday = 12;
+  int64 VIPLevel = 13;
+  int64 Points = 14;
+  int64 CreateTime = 15;
+  int64 UpdateTime = 16;
 }
 message IdReq {
   int64 Id = 1;
@@ -37,6 +41,7 @@ message UserPageListReply {
 
 service user {
   rpc userFindByUsername (UserFindByUsernameReq) returns (UserInfo);
+  rpc userFind (IdReq) returns (UserInfo);
   rpc userPageList (UserPageListReq) returns (UserPageListReply) ;
   rpc userDelete (IdReq) returns (google.protobuf.Empty);
 }

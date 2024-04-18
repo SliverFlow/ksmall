@@ -4,7 +4,7 @@ package common
 // @Author: [github.com/SliverFlow]
 // @Desc: id 入参
 type IdReq struct {
-	Id string `json:"id"`
+	Id int64 `json:"id"`
 }
 
 // ListPageReq

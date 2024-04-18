@@ -67,16 +67,6 @@ func (ur *userRepo) getExpireSecond(expire int64) time.Duration {
 	return time.Duration(expire) * time.Second
 }
 
-func (ur *userRepo) FindByUsername(ctx context.Context, username string) (*model.User, error) {
-	db := ur.db.WithContext(ctx).Model(&model.User{})
-	var user model.User
-	if err := db.Where(model.UserCol.Username, username).First(&user).Error; err != nil {
-		return nil, err
-	}
-
-	return &user, nil
-}
-
 // PageList 分页查询用户
 func (ur *userRepo) PageList(ctx context.Context, limit int64, offset int64) ([]*model.User, int64, error) {
 	db := ur.db.WithContext(ctx).Model(&model.User{})
