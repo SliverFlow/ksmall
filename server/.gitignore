@@ -7,3 +7,6 @@ log/
 **/*.tar.bz2
 **/*.tar
 **/*.gz
+**/*.log
+**/*.dat
+sofa/
