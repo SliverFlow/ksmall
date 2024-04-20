@@ -3,7 +3,7 @@ package initialize
 import (
 	"context"
 	"fmt"
-	"github.com/SliverFlow/ksmall/core/config"
+	"github.com/SliverFlow/ksmall/server/core/config"
 	"github.com/redis/go-redis/v9"
 )
 

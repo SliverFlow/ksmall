@@ -2,8 +2,8 @@ package response
 
 import (
 	"errors"
-	"github.com/SliverFlow/ksmall/common/constant"
-	"github.com/SliverFlow/ksmall/common/zerror"
+	"github.com/SliverFlow/ksmall/server/common/constant"
+	"github.com/SliverFlow/ksmall/server/common/zerror"
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc/status"
 	"net/http"

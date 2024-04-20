@@ -3,8 +3,8 @@ package data
 import (
 	"context"
 	"fmt"
-	"github.com/SliverFlow/ksmall/app/user/rpc/internal/model"
-	"github.com/SliverFlow/ksmall/common/util"
+	"github.com/SliverFlow/ksmall/server/app/user/rpc/internal/model"
+	"github.com/SliverFlow/ksmall/server/common/util"
 	"github.com/redis/go-redis/v9"
 	"time"
 )

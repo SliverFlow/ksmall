@@ -1,7 +1,7 @@
 package initialize
 
 import (
-	"github.com/SliverFlow/ksmall/core/config"
+	"github.com/SliverFlow/ksmall/server/core/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"

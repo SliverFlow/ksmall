@@ -1,7 +1,7 @@
 package util
 
 import (
-	"github.com/SliverFlow/ksmall/common/constant"
+	"github.com/SliverFlow/ksmall/server/common/constant"
 	"google.golang.org/grpc/status"
 )
 

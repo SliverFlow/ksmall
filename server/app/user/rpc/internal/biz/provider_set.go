@@ -1,7 +1,7 @@
 package biz
 
 import (
-	"github.com/SliverFlow/ksmall/core/server"
+	"github.com/SliverFlow/ksmall/server/core/server"
 	"github.com/google/wire"
 )
 

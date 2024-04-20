@@ -3,9 +3,9 @@ package biz
 import (
 	"context"
 	"errors"
-	"github.com/SliverFlow/ksmall/app/user/rpc/internal/data/repo"
-	"github.com/SliverFlow/ksmall/app/user/rpc/pb"
-	"github.com/SliverFlow/ksmall/common/constant"
+	"github.com/SliverFlow/ksmall/server/app/user/rpc/internal/data/repo"
+	"github.com/SliverFlow/ksmall/server/app/user/rpc/pb"
+	"github.com/SliverFlow/ksmall/server/common/constant"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/status"

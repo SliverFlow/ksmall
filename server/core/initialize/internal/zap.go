@@ -2,7 +2,7 @@ package internal
 
 import (
 	"fmt"
-	"github.com/SliverFlow/ksmall/core/config"
+	"github.com/SliverFlow/ksmall/server/core/config"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"time"

@@ -1,6 +1,6 @@
 package config
 
-import "github.com/SliverFlow/ksmall/core/config"
+import "github.com/SliverFlow/ksmall/server/core/config"
 
 type Possess struct {
 	Server *config.RpcServer `mapstructure:"server" json:"server" yaml:"server"`

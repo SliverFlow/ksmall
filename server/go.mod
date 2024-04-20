@@ -1,4 +1,4 @@
-module github.com/SliverFlow/ksmall
+module github.com/SliverFlow/ksmall/server
 
 go 1.21
 

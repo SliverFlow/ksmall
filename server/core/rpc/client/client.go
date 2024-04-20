@@ -2,7 +2,7 @@ package client
 
 import (
 	"fmt"
-	"github.com/SliverFlow/ksmall/core/config"
+	"github.com/SliverFlow/ksmall/server/core/config"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )

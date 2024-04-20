@@ -1,7 +1,7 @@
 package internal
 
 import (
-	"github.com/SliverFlow/ksmall/core/config"
+	"github.com/SliverFlow/ksmall/server/core/config"
 	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
 	"go.uber.org/zap/zapcore"
 	"os"

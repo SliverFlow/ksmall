@@ -1,7 +1,7 @@
 package data
 
 import (
-	"github.com/SliverFlow/ksmall/app/user/rpc/internal/data/repo"
+	"github.com/SliverFlow/ksmall/server/app/user/rpc/internal/data/repo"
 	"github.com/google/wire"
 )
 

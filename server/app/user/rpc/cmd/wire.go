@@ -6,10 +6,10 @@
 package main
 
 import (
-	"github.com/SliverFlow/ksmall/app/user/rpc/internal/biz"
-	"github.com/SliverFlow/ksmall/app/user/rpc/internal/config"
-	"github.com/SliverFlow/ksmall/app/user/rpc/internal/data"
-	"github.com/SliverFlow/ksmall/core/server"
+	"github.com/SliverFlow/ksmall/server/app/user/rpc/internal/biz"
+	"github.com/SliverFlow/ksmall/server/app/user/rpc/internal/config"
+	"github.com/SliverFlow/ksmall/server/app/user/rpc/internal/data"
+	"github.com/SliverFlow/ksmall/server/core/server"
 	"github.com/google/wire"
 	"go.uber.org/zap"
 )

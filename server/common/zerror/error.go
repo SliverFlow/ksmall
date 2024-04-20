@@ -1,6 +1,6 @@
 package zerror
 
-import "github.com/SliverFlow/ksmall/common/constant"
+import "github.com/SliverFlow/ksmall/server/common/constant"
 
 // ZError 自定义错误
 type ZError struct {

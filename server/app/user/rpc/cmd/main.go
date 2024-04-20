@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
-	"github.com/SliverFlow/ksmall/app/user/rpc/internal/config"
-	"github.com/SliverFlow/ksmall/core/initialize"
+	"github.com/SliverFlow/ksmall/server/app/user/rpc/internal/config"
+	"github.com/SliverFlow/ksmall/server/core/initialize"
 	"go.uber.org/zap"
 	"os"
 	"os/signal"

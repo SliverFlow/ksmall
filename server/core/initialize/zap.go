@@ -2,9 +2,9 @@ package initialize
 
 import (
 	"fmt"
-	"github.com/SliverFlow/ksmall/common/util"
-	"github.com/SliverFlow/ksmall/core/config"
-	"github.com/SliverFlow/ksmall/core/initialize/internal"
+	"github.com/SliverFlow/ksmall/server/common/util"
+	"github.com/SliverFlow/ksmall/server/core/config"
+	"github.com/SliverFlow/ksmall/server/core/initialize/internal"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"os"

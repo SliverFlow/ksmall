@@ -1,10 +1,10 @@
 package middleware
 
 import (
-	"github.com/SliverFlow/ksmall/common/constant"
-	"github.com/SliverFlow/ksmall/common/response"
-	"github.com/SliverFlow/ksmall/common/zerror"
-	"github.com/SliverFlow/ksmall/core/config"
+	"github.com/SliverFlow/ksmall/server/common/constant"
+	"github.com/SliverFlow/ksmall/server/common/response"
+	"github.com/SliverFlow/ksmall/server/common/zerror"
+	"github.com/SliverFlow/ksmall/server/core/config"
 	gtimeout "github.com/gin-contrib/timeout"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"

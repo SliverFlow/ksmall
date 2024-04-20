@@ -3,9 +3,9 @@ package data
 import (
 	"context"
 	"fmt"
-	"github.com/SliverFlow/ksmall/app/user/rpc/internal/config"
-	"github.com/SliverFlow/ksmall/app/user/rpc/internal/model"
-	"github.com/SliverFlow/ksmall/common/constant"
+	"github.com/SliverFlow/ksmall/server/app/user/rpc/internal/config"
+	"github.com/SliverFlow/ksmall/server/app/user/rpc/internal/model"
+	"github.com/SliverFlow/ksmall/server/common/constant"
 	"github.com/redis/go-redis/v9"
 	"go.uber.org/zap"
 	"gorm.io/gorm"

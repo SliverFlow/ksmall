@@ -2,7 +2,7 @@ package server
 
 import (
 	"fmt"
-	"github.com/SliverFlow/ksmall/core/config"
+	"github.com/SliverFlow/ksmall/server/core/config"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"net"
