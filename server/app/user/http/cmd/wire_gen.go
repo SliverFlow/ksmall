@@ -7,13 +7,13 @@
 package main
 
 import (
-	"github.com/SliverFlow/ksmall/app/user/http/api/v1"
-	"github.com/SliverFlow/ksmall/app/user/http/internal/biz"
-	"github.com/SliverFlow/ksmall/app/user/http/internal/config"
-	"github.com/SliverFlow/ksmall/app/user/http/internal/rpc_client"
-	"github.com/SliverFlow/ksmall/app/user/http/internal/service"
-	"github.com/SliverFlow/ksmall/core/middleware"
-	"github.com/SliverFlow/ksmall/core/server"
+	"github.com/SliverFlow/ksmall/server/app/user/http/api/v1"
+	"github.com/SliverFlow/ksmall/server/app/user/http/internal/biz"
+	"github.com/SliverFlow/ksmall/server/app/user/http/internal/config"
+	"github.com/SliverFlow/ksmall/server/app/user/http/internal/rpc_client"
+	"github.com/SliverFlow/ksmall/server/app/user/http/internal/service"
+	"github.com/SliverFlow/ksmall/server/core/middleware"
+	"github.com/SliverFlow/ksmall/server/core/server"
 	"go.uber.org/zap"
 )
 

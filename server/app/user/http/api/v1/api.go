@@ -1,8 +1,8 @@
 package v1
 
 import (
-	"github.com/SliverFlow/ksmall/app/user/http/internal/service"
-	"github.com/SliverFlow/ksmall/core/middleware"
+	"github.com/SliverFlow/ksmall/server/app/user/http/internal/service"
+	"github.com/SliverFlow/ksmall/server/core/middleware"
 	"github.com/gin-gonic/gin"
 )
 

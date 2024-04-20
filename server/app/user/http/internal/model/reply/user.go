@@ -1,6 +1,6 @@
 package reply
 
-import "github.com/SliverFlow/ksmall/common"
+import "github.com/SliverFlow/ksmall/server/common"
 
 // UserInfoReply  用户信息
 type UserInfoReply struct {

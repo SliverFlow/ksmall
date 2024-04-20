@@ -2,12 +2,12 @@ package biz
 
 import (
 	"context"
-	"github.com/SliverFlow/ksmall/app/user/http/internal/model/reply"
-	"github.com/SliverFlow/ksmall/app/user/http/internal/model/request"
-	"github.com/SliverFlow/ksmall/app/user/rpc/pb"
-	"github.com/SliverFlow/ksmall/common/constant"
-	"github.com/SliverFlow/ksmall/common/util"
-	"github.com/SliverFlow/ksmall/common/zerror"
+	"github.com/SliverFlow/ksmall/server/app/user/http/internal/model/reply"
+	"github.com/SliverFlow/ksmall/server/app/user/http/internal/model/request"
+	"github.com/SliverFlow/ksmall/server/app/user/rpc/pb"
+	"github.com/SliverFlow/ksmall/server/common/constant"
+	"github.com/SliverFlow/ksmall/server/common/util"
+	"github.com/SliverFlow/ksmall/server/common/zerror"
 	"go.uber.org/zap"
 )
 

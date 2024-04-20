@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/SliverFlow/ksmall/core/config"
+	"github.com/SliverFlow/ksmall/server/core/config"
 )
 
 type Possess struct {

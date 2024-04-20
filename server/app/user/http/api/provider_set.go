@@ -1,8 +1,8 @@
 package api
 
 import (
-	"github.com/SliverFlow/ksmall/app/user/http/api/v1"
-	"github.com/SliverFlow/ksmall/core/server"
+	"github.com/SliverFlow/ksmall/server/app/user/http/api/v1"
+	"github.com/SliverFlow/ksmall/server/core/server"
 	"github.com/google/wire"
 )
 
