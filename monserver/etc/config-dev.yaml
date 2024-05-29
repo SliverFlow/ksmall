@@ -1,0 +1,32 @@
+server:
+  port: 7788
+  name: 'github.com/SliverFlow/ksmall/monserver'
+  timeout: 5
+
+zap:
+  level: info
+  prefix: 'github.com/SliverFlow/ksmall/HttpServer/user'
+  format: console
+  director: 'log'
+  encode-level: LowercaseColorLevelEncoder
+  stacktrace-key: stacktrace
+  max-age: 0
+  show-line: true
+  log-in-console: true
+
+mysql:
+  host: '127.0.0.1'
+  port: '3306'
+  username: 'root'
+  password: '123456'
+  config: 'charset=utf8mb4&parseTime=True&loc=Local'
+  log: info
+  db-name: 'ksmall'
+  max-open-conns: 10
+  max-idle-conns: 5
+redis:
+  host: '120.77.237.246'
+  port: '6379'
+  password: 'wjh20000905'
+  db: 0
+  store: 'ksmall'
