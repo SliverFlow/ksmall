@@ -13,4 +13,5 @@ type RoleRepo interface {
 	List(ctx context.Context) ([]*model.Role, error)
 	FindByName(ctx context.Context, name string) (*model.Role, error)
 	ListByCondition(ctx context.Context, name string, status int64) ([]*model.Role, error)
+	FindByKey(ctx context.Context, key string) (*model.Role, error)
 }

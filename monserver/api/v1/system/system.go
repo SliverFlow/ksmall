@@ -9,15 +9,18 @@ import (
 type Group struct {
 	logger      *zap.Logger
 	roleService *service.RoleService
+	userService *service.UserService
 }
 
 func NewGroup(
 	logger *zap.Logger,
 	roleService *service.RoleService,
+	userService *service.UserService,
 ) *Group {
 	return &Group{
 		logger:      logger,
 		roleService: roleService,
+		userService: userService,
 	}
 }
 
@@ -33,6 +36,12 @@ func (a *Group) InitApi(group *gin.RouterGroup) {
 		roleRouter.POST("/statusDict", a.roleService.StatusDict) // 角色状态字典
 
 		a.logger.Info("role api init success")
+	}
+
+	userRouter := group.Group("/user")
+	{
+		userRouter.POST("/create", a.userService.Create)
+		a.logger.Info("user api init success")
 	}
 	a.logger.Info("system api init success")
 }

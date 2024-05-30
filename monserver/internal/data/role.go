@@ -51,7 +51,9 @@ func (r *roleRepo) Delete(ctx context.Context, id int64) error {
 func (r *roleRepo) Find(ctx context.Context, id int64) (*model.Role, error) {
 	role := &model.Role{}
 	tx := r.DB(ctx).Model(&model.Role{})
-	if err := tx.Where(model.RoleCol.Id+" = ?", id).First(role).Error; err != nil {
+	if err := tx.Where(model.RoleCol.Id+" = ?", id).
+		Where(model.RoleCol.Deleted+" = ?", model.NotDeleted).
+		First(role).Error; err != nil {
 		return nil, errors.WithStack(err)
 	}
 	return role, nil
@@ -60,7 +62,9 @@ func (r *roleRepo) Find(ctx context.Context, id int64) (*model.Role, error) {
 func (r *roleRepo) List(ctx context.Context) ([]*model.Role, error) {
 	var list []*model.Role
 	tx := r.DB(ctx).Model(&model.Role{})
-	if err := tx.Find(&list).Error; err != nil {
+	if err := tx.
+		Where(model.RoleCol.Deleted+" = ?", model.NotDeleted).
+		Find(&list).Error; err != nil {
 		return nil, errors.WithStack(err)
 	}
 	return list, nil
@@ -70,7 +74,9 @@ func (r *roleRepo) List(ctx context.Context) ([]*model.Role, error) {
 func (r *roleRepo) FindByName(ctx context.Context, name string) (*model.Role, error) {
 	role := &model.Role{}
 	tx := r.DB(ctx).Model(&model.Role{})
-	if err := tx.Where(model.RoleCol.Name+" = ?", name).First(role).Error; err != nil {
+	if err := tx.Where(model.RoleCol.Name+" = ?", name).
+		Where(model.RoleCol.Deleted+" = ?", model.NotDeleted).
+		First(role).Error; err != nil {
 		return nil, errors.WithStack(err)
 	}
 	return role, nil
@@ -82,9 +88,22 @@ func (r *roleRepo) ListByCondition(ctx context.Context, name string, status int6
 	tx := r.DB(ctx).Model(&model.Role{})
 	if err := tx.Where(model.RoleCol.Name+" like ?", fmt.Sprintf("%%%s%%", name)).
 		Where(model.RoleCol.Status+" = ?", status).
+		Where(model.RoleCol.Deleted+" = ?", model.NotDeleted).
 		Find(&list).Error; err != nil {
 		return nil, errors.WithStack(err)
 	}
 
 	return list, nil
+}
+
+// FindByKey 根据key查找角色
+func (r *roleRepo) FindByKey(ctx context.Context, key string) (*model.Role, error) {
+	role := &model.Role{}
+	tx := r.DB(ctx).Model(&model.Role{})
+	if err := tx.Where(model.RoleCol.Key+" = ?", key).
+		Where(model.RoleCol.Deleted+" = ?", model.NotDeleted).
+		First(role).Error; err != nil {
+		return nil, errors.WithStack(err)
+	}
+	return role, nil
 }

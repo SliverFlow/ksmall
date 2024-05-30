@@ -127,7 +127,7 @@ func (u *RoleUsecase) Dict(ctx context.Context) ([]*reply.DictReply, error) {
 	for _, role := range roles {
 		dict = append(dict, &reply.DictReply{
 			Id:    role.Id,
-			Name:  role.Name,
+			Name:  strconv.FormatInt(role.Key, 10),
 			Value: role.Name,
 		})
 	}

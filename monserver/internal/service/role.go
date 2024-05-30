@@ -24,7 +24,7 @@ func NewRoleService(logger *zap.Logger, roleUsecase *biz.RoleUsecase) *RoleServi
 func (s *RoleService) Create(c *gin.Context) {
 	var req request.RoleCreateReq
 	if err := c.ShouldBindJSON(&req); err != nil {
-		s.logger.Error("roleService.Create", zap.Error(err))
+		s.logger.Error("param bind err", zap.Error(err))
 		response.FailWithMessage(util.ValidaMsg(err, &req), c)
 		return
 	}
@@ -42,7 +42,7 @@ func (s *RoleService) Create(c *gin.Context) {
 func (s *RoleService) Delete(c *gin.Context) {
 	var req request.IdReq
 	if err := c.ShouldBindJSON(&req); err != nil {
-		s.logger.Error("roleService.Delete", zap.Error(err))
+		s.logger.Error("param bind err", zap.Error(err))
 		response.FailWithMessage(util.ValidaMsg(err, &req), c)
 		return
 	}
@@ -60,7 +60,7 @@ func (s *RoleService) Delete(c *gin.Context) {
 func (s *RoleService) Update(c *gin.Context) {
 	var req request.RoleUpdateReq
 	if err := c.ShouldBindJSON(&req); err != nil {
-		s.logger.Error("roleService.Update", zap.Error(err))
+		s.logger.Error("param bind err", zap.Error(err))
 		response.FailWithMessage(util.ValidaMsg(err, &req), c)
 		return
 	}
@@ -78,7 +78,7 @@ func (s *RoleService) Update(c *gin.Context) {
 func (s *RoleService) Find(c *gin.Context) {
 	var req request.IdReq
 	if err := c.ShouldBindJSON(&req); err != nil {
-		s.logger.Error("roleService.Find", zap.Error(err))
+		s.logger.Error("param bind err", zap.Error(err))
 		response.FailWithMessage(util.ValidaMsg(err, &req), c)
 		return
 	}
@@ -96,7 +96,7 @@ func (s *RoleService) Find(c *gin.Context) {
 func (s *RoleService) List(c *gin.Context) {
 	var req request.RoleListReq
 	if err := c.ShouldBindJSON(&req); err != nil {
-		s.logger.Error("roleService.Find", zap.Error(err))
+		s.logger.Error("param bind err", zap.Error(err))
 		response.FailWithMessage(util.ValidaMsg(err, &req), c)
 		return
 	}
