@@ -13,6 +13,6 @@ type IdsReq struct {
 // PageReq 分页请求入参
 type PageReq struct {
 	Page     int64  `json:"page" binding:"required,min=1" message:"page不能为空,且大于0"`
-	PageSize int64  `json:"page_size" binding:"required,min=1" message:"page_size不能为空,且大于0"`
+	PageSize int64  `json:"pageSize" binding:"required,min=1" message:"page_size不能为空,且大于0"`
 	Keyword  string `json:"keyword"`
 }
