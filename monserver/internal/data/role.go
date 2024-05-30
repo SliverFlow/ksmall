@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"fmt"
 	"github.com/SliverFlow/ksmall/monserver/internal/model"
 	"github.com/pkg/errors"
 	"time"
@@ -79,7 +80,7 @@ func (r *roleRepo) FindByName(ctx context.Context, name string) (*model.Role, er
 func (r *roleRepo) ListByCondition(ctx context.Context, name string, status int64) ([]*model.Role, error) {
 	var list []*model.Role
 	tx := r.DB(ctx).Model(&model.Role{})
-	if err := tx.Where(model.RoleCol.Name+" like %?%", name).
+	if err := tx.Where(model.RoleCol.Name+" like ?", fmt.Sprintf("%%%s%%", name)).
 		Where(model.RoleCol.Status+" = ?", status).
 		Find(&list).Error; err != nil {
 		return nil, errors.WithStack(err)
