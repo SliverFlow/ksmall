@@ -14,4 +14,6 @@ var ProviderSet = wire.NewSet(
 	wire.Bind(new(repo.RoleRepo), new(*roleRepo)),
 	NewUserRepo,
 	wire.Bind(new(repo.UserRepo), new(*userRepo)),
+	NewCategoryRepo,
+	wire.Bind(new(repo.CategoryRepo), new(*categoryRepo)),
 )

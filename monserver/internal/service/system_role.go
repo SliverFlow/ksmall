@@ -10,14 +10,14 @@ import (
 )
 
 type RoleService struct {
-	logger      *zap.Logger
-	roleUsecase *biz.RoleUsecase
+	logger  *zap.Logger
+	usecase *biz.RoleUsecase
 }
 
-func NewRoleService(logger *zap.Logger, roleUsecase *biz.RoleUsecase) *RoleService {
+func NewRoleService(logger *zap.Logger, usecase *biz.RoleUsecase) *RoleService {
 	return &RoleService{
-		logger:      logger,
-		roleUsecase: roleUsecase,
+		logger:  logger,
+		usecase: usecase,
 	}
 }
 
@@ -29,7 +29,7 @@ func (s *RoleService) Create(c *gin.Context) {
 		return
 	}
 
-	err := s.roleUsecase.Insert(c, &req)
+	err := s.usecase.Insert(c, &req)
 	if err != nil {
 		s.logger.Error("roleService.Insert", zap.Error(err))
 		response.FailWithError(err, c)
@@ -47,7 +47,7 @@ func (s *RoleService) Delete(c *gin.Context) {
 		return
 	}
 
-	err := s.roleUsecase.Delete(c, &req)
+	err := s.usecase.Delete(c, &req)
 	if err != nil {
 		s.logger.Error("roleService.Delete", zap.Error(err))
 		response.FailWithError(err, c)
@@ -65,7 +65,7 @@ func (s *RoleService) Update(c *gin.Context) {
 		return
 	}
 
-	err := s.roleUsecase.Update(c, &req)
+	err := s.usecase.Update(c, &req)
 	if err != nil {
 		s.logger.Error("roleService.Update", zap.Error(err))
 		response.FailWithError(err, c)
@@ -83,7 +83,7 @@ func (s *RoleService) Find(c *gin.Context) {
 		return
 	}
 
-	role, err := s.roleUsecase.Find(c, req.Id)
+	role, err := s.usecase.Find(c, req.Id)
 	if err != nil {
 		s.logger.Error("roleService.Find", zap.Error(err))
 		response.FailWithError(err, c)
@@ -101,7 +101,7 @@ func (s *RoleService) List(c *gin.Context) {
 		return
 	}
 
-	roles, err := s.roleUsecase.List(c, &req)
+	roles, err := s.usecase.List(c, &req)
 	if err != nil {
 		s.logger.Error("roleService.List", zap.Error(err))
 		response.FailWithError(err, c)
@@ -113,7 +113,7 @@ func (s *RoleService) List(c *gin.Context) {
 
 // Dict 查询角色字典
 func (s *RoleService) Dict(c *gin.Context) {
-	dict, err := s.roleUsecase.Dict(c)
+	dict, err := s.usecase.Dict(c)
 	if err != nil {
 		s.logger.Error("roleService.Dict", zap.Error(err))
 		response.FailWithError(err, c)
@@ -125,6 +125,6 @@ func (s *RoleService) Dict(c *gin.Context) {
 
 // StatusDict 查询角色状态字典
 func (s *RoleService) StatusDict(c *gin.Context) {
-	dict := s.roleUsecase.StatusDict(c)
+	dict := s.usecase.StatusDict(c)
 	response.OkWithData(gin.H{"dict": dict}, c)
 }

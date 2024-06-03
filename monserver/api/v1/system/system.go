@@ -7,9 +7,10 @@ import (
 )
 
 type Group struct {
-	logger      *zap.Logger
-	roleService *service.RoleService
-	userService *service.UserService
+	logger          *zap.Logger
+	roleService     *service.RoleService
+	userService     *service.UserService
+	categoryService *service.CategoryService
 }
 
 func NewGroup(
@@ -25,7 +26,7 @@ func NewGroup(
 }
 
 func (a *Group) InitApi(group *gin.RouterGroup) {
-	roleRouter := group.Group("/role")
+	roleRouter := group.Group("/system/role")
 	{
 		roleRouter.POST("/create", a.roleService.Create)
 		roleRouter.POST("/delete", a.roleService.Delete)
@@ -38,10 +39,17 @@ func (a *Group) InitApi(group *gin.RouterGroup) {
 		a.logger.Info("role api init success")
 	}
 
-	userRouter := group.Group("/user")
+	userRouter := group.Group("/system/user")
 	{
 		userRouter.POST("/create", a.userService.Create)
 		a.logger.Info("user api init success")
+	}
+
+	categoryRouter := group.Group("/system/category")
+	{
+		categoryRouter.POST("/create", a.categoryService.Create)
+
+		a.logger.Info("category api init success")
 	}
 	a.logger.Info("system api init success")
 }

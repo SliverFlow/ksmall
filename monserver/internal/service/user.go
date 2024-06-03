@@ -10,14 +10,14 @@ import (
 )
 
 type UserService struct {
-	logger      *zap.Logger
-	userUsecase *biz.UserUsecase
+	logger  *zap.Logger
+	usecase *biz.UserUsecase
 }
 
-func NewUserService(logger *zap.Logger, userUsecase *biz.UserUsecase) *UserService {
+func NewUserService(logger *zap.Logger, usecase *biz.UserUsecase) *UserService {
 	return &UserService{
-		logger:      logger,
-		userUsecase: userUsecase,
+		logger:  logger,
+		usecase: usecase,
 	}
 }
 
@@ -30,7 +30,7 @@ func (s *UserService) Create(c *gin.Context) {
 		return
 	}
 
-	err := s.userUsecase.Insert(c, &req)
+	err := s.usecase.Insert(c, &req)
 	if err != nil {
 		s.logger.Error("userService.Insert", zap.Error(err))
 		response.FailWithError(err, c)
