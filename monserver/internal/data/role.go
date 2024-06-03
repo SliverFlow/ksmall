@@ -97,7 +97,7 @@ func (r *roleRepo) ListByCondition(ctx context.Context, name string, status int6
 }
 
 // FindByKey 根据key查找角色
-func (r *roleRepo) FindByKey(ctx context.Context, key string) (*model.Role, error) {
+func (r *roleRepo) FindByKey(ctx context.Context, key int64) (*model.Role, error) {
 	role := &model.Role{}
 	tx := r.DB(ctx).Model(&model.Role{})
 	if err := tx.Where(model.RoleCol.Key+" = ?", key).

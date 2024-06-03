@@ -98,7 +98,10 @@ func (u *RoleUsecase) Find(ctx context.Context, id int64) (*model.Role, error) {
 	role, err := u.roleRepo.Find(ctx, id)
 	if err != nil {
 		u.logger.Error("[date repo err] roleRepo.Find", zap.Error(err))
-		return nil, xerror.NewWithMessage("角色不存在")
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, xerror.NewWithMessage("角色不存在")
+		}
+		return nil, err
 	}
 
 	return role, nil
