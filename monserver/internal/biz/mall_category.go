@@ -38,16 +38,19 @@ func (uc *CategoryUsecase) Insert(ctx context.Context, userId int64, param *requ
 		return err
 	}
 
+	var parentCategory *model.Category
+	var level int64
 	if *param.ParenId != 0 {
 		// 检查父分类是否存在
-		exist, err := uc.checkExist(ctx, *param.ParenId)
+		parentCategory, err = uc.categoryRepo.Find(ctx, *param.ParenId)
 		if err != nil {
-			uc.logger.Error("checkExist failed", zap.Error(err))
-			if errors.Is(err, gorm.ErrRecordNotFound) && !exist {
+			uc.logger.Error("categoryRepo.Find failed", zap.Error(err))
+			if errors.Is(err, gorm.ErrRecordNotFound) {
 				return xerror.NewWithMessage("父分类不存在")
 			}
 			return err
 		}
+		level = parentCategory.Level + 1
 	}
 
 	// 插入分类
@@ -56,6 +59,7 @@ func (uc *CategoryUsecase) Insert(ctx context.Context, userId int64, param *requ
 		ParentId: *param.ParenId,
 		Icon:     param.Icon,
 		IsIndex:  *param.IsIndex,
+		Level:    level,
 		Sort:     param.Sort,
 		Status:   model.Disable,
 		Deleted:  model.NotDeleted,
