@@ -22,8 +22,6 @@ func (a *Group) InitApi(group *gin.RouterGroup) {
 	categoryGroup := group.Group("/mall/category")
 	{
 		categoryGroup.POST("/treeList", a.categoryService.TreeList)
-
-		a.logger.Info("mall category api init success")
 	}
 
 	a.logger.Info("mall api init success")

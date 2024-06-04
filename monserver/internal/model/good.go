@@ -2,7 +2,7 @@ package model
 
 // Good 商品
 type Good struct {
-	Id           int     `gorm:"not null;column:id;primary_key;AUTO_INCREMENT"`
+	Id           int64   `gorm:"not null;column:id;primary_key;AUTO_INCREMENT"`
 	CategoryId   int64   `gorm:"not null;column:category_id;type:bigint(20);index:idx_category_id;comment:分类id"`
 	Sn           string  `gorm:"not null;column:sn;type:varchar(255);comment:商品编号"`
 	Name         string  `gorm:"not null;column:name;type:varchar(255);comment:商品名称"`

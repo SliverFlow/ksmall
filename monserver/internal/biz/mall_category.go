@@ -39,7 +39,7 @@ func (uc *CategoryUsecase) Insert(ctx context.Context, userId int64, param *requ
 	}
 
 	var parentCategory *model.Category
-	var level int64
+	var level int64 = 1
 	if *param.ParenId != 0 {
 		// 检查父分类是否存在
 		parentCategory, err = uc.categoryRepo.Find(ctx, *param.ParenId)

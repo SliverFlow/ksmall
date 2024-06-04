@@ -11,17 +11,22 @@ type Group struct {
 	roleService     *service.RoleService
 	userService     *service.UserService
 	categoryService *service.CategoryService
+	goodService     *service.GoodService
 }
 
 func NewGroup(
 	logger *zap.Logger,
 	roleService *service.RoleService,
 	userService *service.UserService,
+	categoryService *service.CategoryService,
+	goodService *service.GoodService,
 ) *Group {
 	return &Group{
-		logger:      logger,
-		roleService: roleService,
-		userService: userService,
+		logger:          logger,
+		roleService:     roleService,
+		userService:     userService,
+		categoryService: categoryService,
+		goodService:     goodService,
 	}
 }
 
@@ -36,20 +41,23 @@ func (a *Group) InitApi(group *gin.RouterGroup) {
 		roleRouter.POST("/dict", a.roleService.Dict)             // 角色字典
 		roleRouter.POST("/statusDict", a.roleService.StatusDict) // 角色状态字典
 
-		a.logger.Info("role api init success")
 	}
 
 	userRouter := group.Group("/system/user")
 	{
 		userRouter.POST("/create", a.userService.Create)
-		a.logger.Info("user api init success")
 	}
 
 	categoryRouter := group.Group("/system/category")
 	{
 		categoryRouter.POST("/create", a.categoryService.Create)
 
-		a.logger.Info("category api init success")
 	}
+
+	goodRouter := group.Group("/system/good")
+	{
+		goodRouter.POST("/create", a.goodService.Create)
+	}
+
 	a.logger.Info("system api init success")
 }

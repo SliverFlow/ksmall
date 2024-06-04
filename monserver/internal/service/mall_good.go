@@ -9,21 +9,21 @@ import (
 	"go.uber.org/zap"
 )
 
-type CategoryService struct {
+type GoodService struct {
 	logger  *zap.Logger
-	usecase *biz.CategoryUsecase
+	usecase *biz.GoodUsecase
 }
 
-func NewCategoryService(logger *zap.Logger, usecase *biz.CategoryUsecase) *CategoryService {
-	return &CategoryService{
+func NewGoodService(logger *zap.Logger, usecase *biz.GoodUsecase) *GoodService {
+	return &GoodService{
 		logger:  logger,
 		usecase: usecase,
 	}
 }
 
-// Create 创建分类
-func (a *CategoryService) Create(c *gin.Context) {
-	var req request.CreateCategoryReq
+// Create 创建商品
+func (a *GoodService) Create(c *gin.Context) {
+	var req request.CreateGoodReq
 	if err := c.ShouldBindJSON(&req); err != nil {
 		a.logger.Error("param bind err", zap.Error(err))
 		response.FailWithMessage(util.ValidaMsg(err, &req), c)
@@ -32,15 +32,10 @@ func (a *CategoryService) Create(c *gin.Context) {
 
 	err := a.usecase.Insert(c, 2, &req)
 	if err != nil {
-		a.logger.Error("categoryService.Insert", zap.Error(err))
+		a.logger.Error("goodService.Insert", zap.Error(err))
 		response.FailWithError(err, c)
 		return
 	}
 
 	response.Ok(c)
-}
-
-// TreeList 获取分类树
-func (a *CategoryService) TreeList(c *gin.Context) {
-
 }

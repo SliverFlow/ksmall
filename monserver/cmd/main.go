@@ -4,6 +4,7 @@ import (
 	"flag"
 	"github.com/SliverFlow/core/initialize"
 	"github.com/SliverFlow/ksmall/monserver/internal/config"
+	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
 
@@ -19,7 +20,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
+	gin.SetMode(gin.ReleaseMode)
 	logger := initialize.Zap(conf.Zap)
 	s := wireApp(&conf, logger)
 	err = s.ListenServer()
