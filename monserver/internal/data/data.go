@@ -37,6 +37,8 @@ func NewDB(c *config.Possess) *gorm.DB {
 	// _ = db.AutoMigrate(model.Role{})
 	// _ = db.AutoMigrate(model.User{})
 	// _ = db.AutoMigrate(model.Category{})
+	//_ = db.AutoMigrate(model.Good{})
+	//_ = db.AutoMigrate(model.Stock{})
 	return db
 }
 

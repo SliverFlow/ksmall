@@ -15,8 +15,8 @@ func NewGoodRepo(common *Common) *goodRepo {
 }
 
 // Insert a new good
-func (c *goodRepo) Insert(ctx context.Context, good *model.Good) (*model.Good, error) {
-	tx := c.DB(ctx).Model(&model.Good{})
+func (c *goodRepo) Insert(ctx context.Context, good *model.Goods) (*model.Goods, error) {
+	tx := c.DB(ctx).Model(&model.Goods{})
 	if err := tx.Create(good).Error; err != nil {
 		return nil, errors.WithStack(err)
 	}

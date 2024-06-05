@@ -1,7 +1,7 @@
 package model
 
-// Good 商品
-type Good struct {
+// Goods 商品
+type Goods struct {
 	Id           int64   `gorm:"not null;column:id;primary_key;AUTO_INCREMENT"`
 	CategoryId   int64   `gorm:"not null;column:category_id;type:bigint(20);index:idx_category_id;comment:分类id"`
 	Sn           string  `gorm:"not null;column:sn;type:varchar(255);comment:商品编号"`
@@ -26,8 +26,8 @@ type Good struct {
 }
 
 // TableName 表名
-func (Good) TableName() string {
-	return "mall_good"
+func (Goods) TableName() string {
+	return "mall_goods"
 }
 
 const (

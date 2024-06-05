@@ -5,9 +5,10 @@ type Stock struct {
 	Id       int64  `gorm:"not null;column:id;primary_key;AUTO_INCREMENT"`
 	Name     string `gorm:"not null;column:name;type:varchar(255);default:'';comment:'库存名称'"`
 	Remark   string `gorm:"not null;column:remark;type:varchar(255);default:'';comment:'备注'"`
-	GoodId   int64  `gorm:"not null;column:good_id;type:int(11);default:0;comment:'商品id'"`
+	GoodsId  int64  `gorm:"not null;column:goods_id;type:int(11);default:0;index:idx_good_id;comment:'商品id'"`
 	Num      int64  `gorm:"not null;column:num;type:int(11);default:0;comment:'库存数量'"`
 	Version  int64  `gorm:"not null;column:version;type:int(11);default:0;comment:'版本号'"`
+	Active   int64  `gorm:"not null;column:active;type:int(11);default:0;comment:'激活状态 0:未激活 1:已激活'"`
 	Status   int64  `gorm:"not null;column:status;type:int(11);default:0;comment:'状态 0:禁用 1:启用'"`
 	Deleted  int64  `gorm:"not null;column:deleted;type:int(11);default:0;comment:'删除标志 0:未删除 1:已删除'"`
 	CreateAt int64  `gorm:"not null;column:create_at;type:int(11);default:0;comment:'创建时间'"`
@@ -19,11 +20,16 @@ func (s *Stock) TableName() string {
 	return "mall_stock"
 }
 
+const (
+	StockIsActive  = 1 // 正在使用的库存
+	StockNotActive = 0 // 未使用的库存
+)
+
 var StockCol = struct {
 	Id       string
 	Name     string
 	Remark   string
-	GoodId   string
+	GoodsId  string
 	Num      string
 	Version  string
 	Status   string
@@ -35,7 +41,7 @@ var StockCol = struct {
 	Id:       "id",
 	Name:     "name",
 	Remark:   "remark",
-	GoodId:   "good_id",
+	GoodsId:  "goods_id",
 	Num:      "num",
 	Version:  "version",
 	Status:   "status",

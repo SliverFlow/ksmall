@@ -10,4 +10,5 @@ type StockRepo interface {
 	Update(ctx context.Context, stock *model.Stock) error
 	Delete(ctx context.Context, id int) error
 	Find(ctx context.Context, id int) (*model.Stock, error)
+	FindByGoodsId(ctx context.Context, goodsId int) ([]*model.Stock, error)
 }

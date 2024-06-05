@@ -62,8 +62,12 @@ func (uc *GoodUsecase) Insert(ctx context.Context, userId int64, param *request.
 		return xerror.NewWithMessage("当前分类已禁用")
 	}
 
+	if param.Price > param.OriginPrice {
+		return xerror.NewWithMessage("售卖价格不能大于原价")
+	}
+
 	// Insert a good
-	insertGood := &model.Good{
+	insertGood := &model.Goods{
 		Name:        param.Name,
 		CategoryId:  param.CategoryId,
 		Sn:          strconv.FormatInt(util.SnowWorker.NextId(), 10),
@@ -93,11 +97,12 @@ func (uc *GoodUsecase) Insert(ctx context.Context, userId int64, param *request.
 	// 异步给商品创建默认 stock
 	go func() {
 		insertStock := &model.Stock{
-			GoodId:   insertGood.Id,
+			GoodsId:  insertGood.Id,
 			Name:     "默认库存",
 			Remark:   "默认库存",
-			Num:      0,
+			Num:      1,
 			Version:  0,
+			Active:   model.StockNotActive,
 			Status:   model.Disable,
 			Deleted:  model.NotDeleted,
 			CreateAt: time.Now().Unix(),

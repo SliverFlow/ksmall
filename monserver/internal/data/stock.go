@@ -61,3 +61,16 @@ func (r *stockRepo) Find(ctx context.Context, id int) (*model.Stock, error) {
 	}
 	return stock, nil
 }
+
+// FindByGoodsId 根据商品 id 查询所有使用的库存，不包括已删除的，可能有多个
+func (r *stockRepo) FindByGoodsId(ctx context.Context, goodsId int) ([]*model.Stock, error) {
+	stocks := make([]*model.Stock, 0)
+	tx := r.DB(ctx).Model(&model.Stock{})
+	if err := tx.Where(model.StockCol.GoodsId+" = ?", goodsId).
+		Where(model.StockCol.Status+" = ?", model.StockIsActive).
+		Where(model.StockCol.Deleted+" = ?", model.NotDeleted).
+		Find(&stocks).Error; err != nil {
+		return nil, errors.WithStack(err)
+	}
+	return stocks, nil
+}
