@@ -26,6 +26,6 @@ func main() {
 	err = s.ListenServer()
 	if err != nil {
 		logger.Error("服务启动失败", zap.Any("err", err))
-		return
 	}
+
 }
