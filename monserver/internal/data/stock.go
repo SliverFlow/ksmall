@@ -67,7 +67,7 @@ func (r *stockRepo) FindByGoodsId(ctx context.Context, goodsId int) ([]*model.St
 	stocks := make([]*model.Stock, 0)
 	tx := r.DB(ctx).Model(&model.Stock{})
 	if err := tx.Where(model.StockCol.GoodsId+" = ?", goodsId).
-		Where(model.StockCol.Status+" = ?", model.StockIsActive).
+		Where(model.StockCol.Status+" = ?", model.StockActive).
 		Where(model.StockCol.Deleted+" = ?", model.NotDeleted).
 		Find(&stocks).Error; err != nil {
 		return nil, errors.WithStack(err)

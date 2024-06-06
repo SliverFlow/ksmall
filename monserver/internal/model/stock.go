@@ -21,7 +21,7 @@ func (s *Stock) TableName() string {
 }
 
 const (
-	StockIsActive  = 1 // 正在使用的库存
+	StockActive    = 1 // 正在使用的库存
 	StockNotActive = 0 // 未使用的库存
 )
 
