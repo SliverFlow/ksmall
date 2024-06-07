@@ -2,7 +2,6 @@ package model
 
 type User struct {
 	Id       int64  `gorm:"not null;column:id;primary_key;AUTO_INCREMENT"`
-	RoleId   int64  `gorm:"not null;column:role_id;type:int(11);default:0;comment:'角色id'"`
 	Uuid     string `gorm:"not null;column:uuid;type:varchar(255);default:'';comment:'uuid'"`
 	Male     int64  `gorm:"not null;column:male;type:int(11);default:0;comment:'性别 0:未知 1:男 2:女'"`
 	WxOpenid string `gorm:"not null;column:wx_openid;type:varchar(255);default:'';comment:'微信openid'"`
@@ -25,7 +24,6 @@ func (u *User) TableName() string {
 
 var UserCol = struct {
 	Id       string
-	RoleId   string
 	Uuid     string
 	Male     string
 	WxOpenid string
@@ -42,7 +40,6 @@ var UserCol = struct {
 	DeleteAt string
 }{
 	Id:       "id",
-	RoleId:   "role_id",
 	Uuid:     "uuid",
 	Male:     "male",
 	WxOpenid: "wx_openid",
