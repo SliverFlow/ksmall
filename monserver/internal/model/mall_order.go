@@ -1,4 +1,4 @@
-package data
+package model
 
 // Order 订单
 type Order struct {
@@ -21,6 +21,10 @@ type Order struct {
 	ReceiverProvince string `gorm:"not null;column:receiver_province;type:varchar(255);default:'';comment:'收货人省'"`
 	ReceiverCity     string `gorm:"not null;column:receiver_city;type:varchar(255);default:'';comment:'收货人市'"`
 	ReceiverArea     string `gorm:"not null;column:receiver_area;type:varchar(255);default:'';comment:'收货人区'"`
+
+	// 优惠券信息
+	CouponId int64  `gorm:"not null;column:coupon_id;type:int(11);default:0;comment:'优惠券id'"`
+	CouponSn string `gorm:"not null;column:coupon_sn;type:varchar(255);default:'';comment:'优惠券码'"`
 
 	Deleted  int64 `gorm:"not null;column:deleted;type:int(11);default:0;comment:'删除标志 0:未删除 1:已删除'"`
 	CreateAt int64 `gorm:"not null;column:create_at;type:int(11);default:0;comment:'创建时间'"`

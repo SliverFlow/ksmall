@@ -1,4 +1,4 @@
-package data
+package model
 
 // OrderItem 订单子表
 type OrderItem struct {

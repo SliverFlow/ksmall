@@ -15,7 +15,7 @@ type Menu struct {
 	CreateAt  int64  `gorm:"not null;column:create_at;type:int(11);default:0;comment:'创建时间'"`
 	UpdateAt  int64  `gorm:"not null;column:update_at;type:int(11);default:0;comment:'更新时间'"`
 	DeleteAt  int64  `gorm:"not null;column:delete_at;type:int(11);default:0;comment:'删除时间'"`
-	Meta      `json:"meta" gorm:"embedded;comment:附加属性"`
+	Meta      `gorm:"embedded;comment:附加属性"`
 }
 
 // Meta 菜单元信息

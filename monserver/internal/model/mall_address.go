@@ -1,4 +1,4 @@
-package data
+package model
 
 // Address 收货地址
 type Address struct {

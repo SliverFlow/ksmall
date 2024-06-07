@@ -1,4 +1,4 @@
-package data
+package model
 
 // Comment 评论
 type Comment struct {
