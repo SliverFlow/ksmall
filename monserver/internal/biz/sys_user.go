@@ -51,7 +51,6 @@ func (u *UserUsecase) Insert(ctx context.Context, param *request.UserCreateReq) 
 	insertUser := &model.User{
 		Username: param.Username,
 		Password: util.BcryptHash(param.Password),
-		RoleId:   role.Key,
 		Nickname: param.Nickname,
 		Phone:    param.Phone,
 		Email:    param.Email,

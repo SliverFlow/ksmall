@@ -68,17 +68,15 @@ func (uc *GoodUsecase) Insert(ctx context.Context, userId int64, param *request.
 
 	// Insert a good
 	insertGood := &model.Goods{
-		Name:        param.Name,
-		CategoryId:  param.CategoryId,
-		Sn:          strconv.FormatInt(util.SnowWorker.NextId(), 10),
-		Price:       param.Price,
-		OriginPrice: param.OriginPrice,
-		Cover:       param.Cover,
-		Desc:        param.Desc,
-		Status:      model.Disable,
-		Deleted:     model.NotDeleted,
-		CreateAt:    time.Now().Unix(),
-		UpdateAt:    time.Now().Unix(),
+		Name:       param.Name,
+		CategoryId: param.CategoryId,
+		Sn:         strconv.FormatInt(util.SnowWorker.NextId(), 10),
+		Cover:      param.Cover,
+		Desc:       param.Desc,
+		Status:     model.Disable,
+		Deleted:    model.NotDeleted,
+		CreateAt:   time.Now().Unix(),
+		UpdateAt:   time.Now().Unix(),
 	}
 	imageStr, err := util.StructToJSON(param.Image)
 	contentImageStr, err := util.StructToJSON(param.ContentImage)
@@ -93,26 +91,6 @@ func (uc *GoodUsecase) Insert(ctx context.Context, userId int64, param *request.
 		uc.logger.Error("goodRepo.Insert failed", zap.Error(err))
 		return err
 	}
-
-	// 异步给商品创建默认 stock
-	go func() {
-		insertStock := &model.Stock{
-			GoodsId:  insertGood.Id,
-			Name:     "默认库存",
-			Remark:   "默认库存",
-			Num:      1,
-			Version:  0,
-			Active:   model.StockNotActive,
-			Status:   model.Disable,
-			Deleted:  model.NotDeleted,
-			CreateAt: time.Now().Unix(),
-			UpdateAt: time.Now().Unix(),
-		}
-		err := uc.stockRepo.Insert(ctx, insertStock)
-		if err != nil {
-			uc.logger.Error("stockRepo.Insert failed", zap.Error(err))
-		}
-	}()
 
 	return nil
 }
