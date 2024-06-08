@@ -22,9 +22,9 @@ kind: Ingress
 metadata:
   name: mall-app-ingress
   namespace: mall-app-ns
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  # 通过 IngressClassName 来指定使用的 Ingress Controller，不指定可能会造成请求 404
+  ingressClassName: nginx
   rules:
     - host: mall.k8s.com
       http:
@@ -71,7 +71,7 @@ spec:
     spec:
       containers:
         - name: mall-app
-          image: 192.168.5.50:8888/mall/app:latest
+          image: 192.168.5.50:8888/mall/app:v1.0
           ports:
             - containerPort: 9999
           workingDir: /data
