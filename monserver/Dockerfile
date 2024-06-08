@@ -21,6 +21,6 @@ WORKDIR ${APP_DIR}
 
 EXPOSE 9999
 # 启动应用程序
-CMD ["./app -env=dev -port=9999 -path=/data/etc"]
+CMD ["./app", "-env=dev", "-port=9999", "-path=/data/etc"]
 
 
