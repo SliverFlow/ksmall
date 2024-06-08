@@ -1,0 +1,81 @@
+# 先创建一个命名空间
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mall-app-ns
+---
+
+# 创建 secret
+apiVersion: v1
+data:
+  .dockerconfigjson: eyJhdXRocyI6eyIxOTIuMTY4LjUuNTA6ODg4OCI6eyJ1c2VybmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOiIxMjM0NTYiLCJhdXRoIjoiWVdSdGFXNDZNVEl6TkRVMiJ9fX0=
+kind: Secret
+metadata:
+  name: harbor-secret
+  namespace: mall-app-ns
+type: kubernetes.io/dockerconfigjson
+---
+
+# 创建一个 Ingress 资源
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mall-app-ingress
+  namespace: mall-app-ns
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: mall.k8s.com
+      http:
+        paths:
+          - path: /api/v1/system
+            pathType: Prefix
+            backend:
+              service:
+                name: mall-app-service
+                port:
+                  number: 9999
+---
+
+# 创建一个 Service 资源
+apiVersion: v1
+kind: Service
+metadata:
+  name: mall-app-service
+  namespace: mall-app-ns
+spec:
+  selector:
+    app: mall-app
+  ports:
+    - port: 9999
+      targetPort: 9999
+      protocol: TCP
+---
+
+# 创建一个 Deployment 资源
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mall-app-deployment
+  namespace: mall-app-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mall-app
+  template:
+    metadata:
+      labels:
+        app: mall-app
+    spec:
+      containers:
+        - name: mall-app
+          image: 192.168.5.50:8888/mall/app:latest
+          ports:
+            - containerPort: 9999
+          workingDir: /data
+          command: [ "./app" ]
+          args: [ "-env=prod", "-port=9999", "-path=/data/etc" ]
+      imagePullSecrets:
+        - name: harbor-secret
