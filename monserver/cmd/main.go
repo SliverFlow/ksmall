@@ -15,10 +15,11 @@ func main() {
 
 	env := flag.String("env", "dev", "")
 	port := flag.Int64("port", 8080, "")
+	path := flag.String("path", path, "	")
 	flag.Parse()
 
 	var conf config.Possess
-	v := initialize.Viper(path, env, nil)
+	v := initialize.Viper(*path, env, nil)
 	err := v.Unmarshal(&conf)
 	if err != nil {
 		panic(err)
