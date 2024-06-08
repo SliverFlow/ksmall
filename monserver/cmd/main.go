@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"github.com/SliverFlow/core/initialize"
 	"github.com/SliverFlow/ksmall/monserver/internal/config"
 	"github.com/gin-gonic/gin"
@@ -13,6 +14,8 @@ const path = "./etc"
 func main() {
 
 	env := flag.String("env", "dev", "")
+	port := flag.Int64("port", 8080, "")
+	flag.Parse()
 
 	var conf config.Possess
 	v := initialize.Viper(path, env, nil)
@@ -20,6 +23,12 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	if port != nil && *port != 0 {
+		fmt.Println("port:", *port)
+		conf.Server.Port = int(*port)
+	}
+
 	gin.SetMode(gin.ReleaseMode)
 	logger := initialize.Zap(conf.Zap)
 	s := wireApp(&conf, logger)
