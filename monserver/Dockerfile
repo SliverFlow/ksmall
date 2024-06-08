@@ -19,6 +19,8 @@ RUN chmod +x ${APP_DIR}/${APP_NAME}
 # 设置工作目录
 WORKDIR ${APP_DIR}
 
+EXPOSE 9999
 # 启动应用程序
-CMD ["./app -env=dev"]
+CMD ["./app -env=dev -port=9999"]
+
 
