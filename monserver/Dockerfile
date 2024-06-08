@@ -1,31 +1,24 @@
-FROM golang:alpine AS builder
+# 使用一个轻量级的基础镜像，如alpine
+FROM alpine:latest
 
-LABEL stage=gobuilder
+# 设置环境变量
+ENV APP_NAME app
+ENV APP_DIR /data
 
-ENV CGO_ENABLED 0
-ENV GOPROXY https://goproxy.cn,direct
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+# 创建应用目录
+RUN mkdir -p ${APP_DIR}
+RUN mkdir -p ${APP_DIR}/etc
 
-RUN apk update --no-cache && apk add --no-cache tzdata
+# 将编译好的二进制文件复制到镜像中
+COPY ${APP_NAME} ${APP_DIR}/${APP_NAME}
+COPY etc ${APP_DIR}/etc
 
-WORKDIR /build
+# 给予执行权限（如果需要）
+RUN chmod +x ${APP_DIR}/${APP_NAME}
 
-ADD go.mod .
-ADD go.sum .
-RUN go mod download
-COPY . .
-COPY etc /app/etc
-RUN go build -ldflags="-s -w" -o /app/app app/cmd
+# 设置工作目录
+WORKDIR ${APP_DIR}
 
+# 启动应用程序
+CMD ["./app -env=dev"]
 
-FROM scratch
-
-COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
-COPY --from=builder /usr/share/zoneinfo/Asia/Shanghai /usr/share/zoneinfo/Asia/Shanghai
-ENV TZ Asia/Shanghai
-
-WORKDIR /app
-COPY --from=builder /app/user /app/user
-COPY --from=builder /app/etc /app/etc
-
-CMD ["./app"]
