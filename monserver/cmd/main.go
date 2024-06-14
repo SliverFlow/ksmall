@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"github.com/SliverFlow/core/initialize"
+	"github.com/SliverFlow/ksmall/monserver/initc"
 	"github.com/SliverFlow/ksmall/monserver/internal/config"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -14,7 +14,7 @@ const path = "./etc"
 func main() {
 
 	env := flag.String("env", "dev", "")
-	port := flag.Int64("port", 8080, "")
+	port := flag.Int64("port", 0, "")
 	path := flag.String("path", path, "	")
 	flag.Parse()
 
@@ -25,8 +25,10 @@ func main() {
 		panic(err)
 	}
 
+	tracer := initc.Tracer(conf.Jaeger)
+	defer tracer()
+
 	if port != nil && *port != 0 {
-		fmt.Println("port:", *port)
 		conf.Server.Port = int(*port)
 	}
 

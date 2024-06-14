@@ -12,6 +12,7 @@ type Possess struct {
 	Mysql  *config.Mysql      `mapstructure:"mysql" yaml:"mysql"`
 	Redis  *config.Redis      `mapstructure:"redis" yaml:"redis"`
 	Etcd   *conf.Etcd         `mapstructure:"etcd" yaml:"etcd"`
+	Jaeger *conf.Jaeger       `mapstructure:"jaeger" yaml:"jaeger"`
 }
 
 func NewHttpServerConfig(c *Possess) *config.HttpServer {

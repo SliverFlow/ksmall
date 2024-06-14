@@ -36,3 +36,7 @@ etcd:
   username: ""
   password: ""
   timeout: 5
+jaeger:
+  host: '192.168.5.50'
+  port: '14268'
+  service: 'github.com/SliverFlow/ksmall/monserver'
