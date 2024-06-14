@@ -9,6 +9,7 @@ var ProviderSet = wire.NewSet(
 	NewDB,
 	NewRDB,
 	NewCommon,
+	NewEtcd,
 
 	NewRoleRepo,
 	wire.Bind(new(repo.RoleRepo), new(*roleRepo)),

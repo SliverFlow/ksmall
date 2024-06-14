@@ -16,13 +16,15 @@ type CategoryUsecase struct {
 	logger       *zap.Logger
 	userRepo     repo.UserRepo
 	categoryRepo repo.CategoryRepo
+	locker       *EtcdLocker
 }
 
-func NewCategoryUsecase(logger *zap.Logger, userRepo repo.UserRepo, categoryRepo repo.CategoryRepo) *CategoryUsecase {
+func NewCategoryUsecase(logger *zap.Logger, userRepo repo.UserRepo, categoryRepo repo.CategoryRepo, locker *EtcdLocker) *CategoryUsecase {
 	return &CategoryUsecase{
 		logger:       logger,
 		userRepo:     userRepo,
 		categoryRepo: categoryRepo,
+		locker:       locker,
 	}
 }
 

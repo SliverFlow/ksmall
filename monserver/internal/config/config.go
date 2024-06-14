@@ -1,6 +1,9 @@
 package config
 
-import "github.com/SliverFlow/core/config"
+import (
+	"github.com/SliverFlow/core/config"
+	"github.com/SliverFlow/ksmall/monserver/conf"
+)
 
 // Possess 配置文件结构体
 type Possess struct {
@@ -8,6 +11,7 @@ type Possess struct {
 	Zap    *config.Zap        `mapstructure:"zap" yaml:"zap"`
 	Mysql  *config.Mysql      `mapstructure:"mysql" yaml:"mysql"`
 	Redis  *config.Redis      `mapstructure:"redis" yaml:"redis"`
+	Etcd   *conf.Etcd         `mapstructure:"etcd" yaml:"etcd"`
 }
 
 func NewHttpServerConfig(c *Possess) *config.HttpServer {

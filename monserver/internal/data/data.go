@@ -3,8 +3,10 @@ package data
 import (
 	"context"
 	"github.com/SliverFlow/core/initialize"
+	"github.com/SliverFlow/ksmall/monserver/initc"
 	"github.com/SliverFlow/ksmall/monserver/internal/config"
 	"github.com/redis/go-redis/v9"
+	clientv3 "go.etcd.io/etcd/client/v3"
 	"gorm.io/gorm"
 )
 
@@ -44,6 +46,15 @@ func NewDB(c *config.Possess) *gorm.DB {
 
 func NewRDB(c *config.Possess) *redis.Client {
 	client, err := initialize.Redis(c.Redis)
+	if err != nil {
+		panic(err)
+		return nil
+	}
+	return client
+}
+
+func NewEtcd(c *config.Possess) *clientv3.Client {
+	client, err := initc.Etcd(c.Etcd)
 	if err != nil {
 		panic(err)
 		return nil

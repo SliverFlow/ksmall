@@ -30,3 +30,9 @@ redis:
   password: 'wjh20000905'
   db: 0
   store: 'ksmall'
+etcd:
+  endpoints:
+    - "127.0.0.1:2379"
+  username: ""
+  password: ""
+  timeout: 5
