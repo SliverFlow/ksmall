@@ -3,6 +3,7 @@ package model
 // Role 角色
 type Role struct {
 	Id       int64  `gorm:"not null;column:id;primary_key;AUTO_INCREMENT"`
+	UserId   int64  `gorm:"not null;column:user_id;type:int(11);default:0;comment:'创建者用户id'"`
 	Name     string `gorm:"not null;column:name;type:varchar(255);default:'';comment:'角色名称'"`
 	Remark   string `gorm:"not null;column:remark;type:varchar(255);default:'';comment:'备注'"`
 	Status   int64  `gorm:"not null;column:status;type:int(11);default:0;comment:'状态 0:禁用 1:启用'"`
@@ -17,6 +18,11 @@ type Role struct {
 func (r *Role) TableName() string {
 	return "sys_role"
 }
+
+const (
+	RoleKeyAdmin = 111
+	RoleKeyUser  = 999
+)
 
 var RoleCol = struct {
 	Id       string

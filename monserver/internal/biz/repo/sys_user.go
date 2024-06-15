@@ -10,4 +10,5 @@ type UserRepo interface {
 	Update(ctx context.Context, user *model.User) (*model.User, error)
 	Delete(ctx context.Context, id int64) error
 	Find(ctx context.Context, id int64) (*model.User, error)
+	FindRoleId(ctx context.Context, id int64) (int64, error)
 }

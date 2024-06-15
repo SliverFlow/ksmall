@@ -1,8 +1,12 @@
 package service
 
 import (
+	"github.com/SliverFlow/ksmall/monserver/common/response"
+	"github.com/SliverFlow/ksmall/monserver/common/util"
 	"github.com/SliverFlow/ksmall/monserver/internal/biz"
+	"github.com/SliverFlow/ksmall/monserver/internal/model/request"
 	"github.com/SliverFlow/ksmall/monserver/tracing"
+	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
 
@@ -17,4 +21,24 @@ func NewAuthorityGroupService(usecase *biz.AuthorityGroupUsecase, logger *zap.Lo
 		usecase: usecase,
 		logger:  logger,
 	}
+}
+
+// Create 创建权限组
+func (s *AuthorityGroupService) Create(c *gin.Context) {
+
+	var req request.CreateAuthorityGroupReq
+	if err := c.ShouldBindJSON(&req); err != nil {
+		s.logger.Error("param bind err", zap.Error(err))
+		response.FailWithMessage(util.ValidaMsg(err, &req), c)
+		return
+	}
+
+	err := s.usecase.Create(c, 1, &req)
+	if err != nil {
+		s.logger.Error("authorityGroupService.Create", zap.Error(err))
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.Ok(c)
 }

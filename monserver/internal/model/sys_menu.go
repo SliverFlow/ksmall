@@ -3,6 +3,7 @@ package model
 // Menu 菜单表
 type Menu struct {
 	Id        int64  `gorm:"not null;column:id;primary_key;AUTO_INCREMENT"`
+	UserId    int64  `gorm:"not null;column:user_id;type:int(11);default:0;comment:'创建者用户id'"`
 	RoleId    int64  `gorm:"not null;column:role_id;type:int(11);default:0;comment:'角色id'"`
 	ParentId  int64  `gorm:"not null;column:parent_id;type:int(11);default:0;comment:'父级菜单id'"`
 	Path      string `gorm:"not null;column:path;type:varchar(255);default:'';comment:'菜单路径'"`

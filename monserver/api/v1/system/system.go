@@ -78,7 +78,7 @@ func (a *Group) InitApi(group *gin.RouterGroup) {
 	// 权限组相关
 	authorityGroupRouter := group.Group("/system/authorityGroup")
 	{
-		authorityGroupRouter.POST("/create")
+		authorityGroupRouter.POST("/create", a.authorityGroupService.Create)
 	}
 
 	a.logger.Info("system api init success")

@@ -3,6 +3,7 @@ package model
 // Authority 权限表
 type Authority struct {
 	Id               int64  `gorm:"not null;column:id;primary_key;AUTO_INCREMENT"`
+	UserId           int64  `gorm:"not null;column:user_id;type:int(11);default:0;comment:'创建者用户id'"`
 	AuthorityGroupId int64  `gorm:"not null;column:authority_group_id;type:int(11);default:0;comment:'权限组id'"`
 	Name             string `gorm:"not null;column:name;type:varchar(255);default:'';comment:'权限名称'"`
 	Url              string `gorm:"not null;column:url;type:varchar(255);default:'';comment:'权限url'"`
