@@ -40,7 +40,9 @@ func NewDB(c *config.Possess) *gorm.DB {
 	// _ = db.AutoMigrate(model.User{})
 	// _ = db.AutoMigrate(model.UserRoleRef{})
 	// _ = db.AutoMigrate(model.Category{})
-	// _ = db.AutoMigrate(model.Authority{})
+	//_ = db.AutoMigrate(model.Authority{})
+	//_ = db.AutoMigrate(model.AuthorityGroup{})
+	//_ = db.AutoMigrate(model.RoleAuthRef{})
 	return db
 }
 
