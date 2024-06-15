@@ -14,11 +14,10 @@ func NewTacker() *Tacker {
 
 func (t *Tacker) Handle() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		tracer := otel.Tracer("gin-server")
+		tracer := otel.Tracer("ParentTracer")
 		ctx, span := tracer.Start(c.Request.Context(), c.Request.URL.Path)
 		defer span.End()
 
-		c.Set("SpanName", c.Request.URL.Path)
 		c.Request = c.Request.WithContext(ctx)
 		c.Next()
 	}

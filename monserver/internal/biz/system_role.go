@@ -7,6 +7,7 @@ import (
 	"github.com/SliverFlow/ksmall/monserver/internal/model"
 	"github.com/SliverFlow/ksmall/monserver/internal/model/reply"
 	"github.com/SliverFlow/ksmall/monserver/internal/model/request"
+	"github.com/SliverFlow/ksmall/monserver/tracing"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
@@ -15,6 +16,7 @@ import (
 )
 
 type RoleUsecase struct {
+	tracing.Biz
 	logger   *zap.Logger
 	roleRepo repo.RoleRepo
 }
@@ -109,6 +111,9 @@ func (u *RoleUsecase) Find(ctx context.Context, id int64) (*model.Role, error) {
 
 // List 查询角色列表
 func (u *RoleUsecase) List(ctx context.Context, param *request.RoleListReq) ([]*model.Role, error) {
+	ctx, span := u.Tacker(ctx, "roleUsecase.List")
+	defer span.End()
+
 	roles, err := u.roleRepo.ListByCondition(ctx, param.Name, *param.Status)
 	if err != nil {
 		u.logger.Error("[date repo err] roleRepo.List", zap.Error(err))

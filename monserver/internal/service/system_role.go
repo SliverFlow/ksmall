@@ -5,11 +5,13 @@ import (
 	"github.com/SliverFlow/ksmall/monserver/common/util"
 	"github.com/SliverFlow/ksmall/monserver/internal/biz"
 	"github.com/SliverFlow/ksmall/monserver/internal/model/request"
+	"github.com/SliverFlow/ksmall/monserver/tracing"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
 
 type RoleService struct {
+	tracing.Service
 	logger  *zap.Logger
 	usecase *biz.RoleUsecase
 }
@@ -76,6 +78,9 @@ func (s *RoleService) Update(c *gin.Context) {
 }
 
 func (s *RoleService) Find(c *gin.Context) {
+	ctx, span := s.Tacker(c, "roleService.Find")
+	defer span.End()
+
 	var req request.IdReq
 	if err := c.ShouldBindJSON(&req); err != nil {
 		s.logger.Error("param bind err", zap.Error(err))
@@ -83,7 +88,7 @@ func (s *RoleService) Find(c *gin.Context) {
 		return
 	}
 
-	role, err := s.usecase.Find(c, req.Id)
+	role, err := s.usecase.Find(ctx, req.Id)
 	if err != nil {
 		s.logger.Error("roleService.Find", zap.Error(err))
 		response.FailWithError(err, c)
@@ -94,6 +99,9 @@ func (s *RoleService) Find(c *gin.Context) {
 }
 
 func (s *RoleService) List(c *gin.Context) {
+	ctx, span := s.Tacker(c, "roleService.List")
+	defer span.End()
+
 	var req request.RoleListReq
 	if err := c.ShouldBindJSON(&req); err != nil {
 		s.logger.Error("param bind err", zap.Error(err))
@@ -101,7 +109,7 @@ func (s *RoleService) List(c *gin.Context) {
 		return
 	}
 
-	roles, err := s.usecase.List(c, &req)
+	roles, err := s.usecase.List(ctx, &req)
 	if err != nil {
 		s.logger.Error("roleService.List", zap.Error(err))
 		response.FailWithError(err, c)

@@ -39,4 +39,4 @@ etcd:
 jaeger:
   host: '192.168.5.50'
   port: '14268'
-  service: 'github.com/SliverFlow/ksmall/monserver'
+  service: 'ksmall/monserver'
