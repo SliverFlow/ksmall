@@ -1,5 +1,7 @@
 package model
 
+import "time"
+
 const (
 	Deleted    = 1 // 已删除
 	NotDeleted = 0 // 未删除
@@ -10,4 +12,8 @@ const (
 var StatusMap = map[int64]string{
 	Enable:  "启用",
 	Disable: "禁用",
+}
+
+func Now() int64 {
+	return time.Now().Unix()
 }

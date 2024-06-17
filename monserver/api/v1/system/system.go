@@ -72,7 +72,7 @@ func (a *Group) InitApi(group *gin.RouterGroup) {
 	// 权限相关
 	authorityRouter := group.Group("/system/authority")
 	{
-		authorityRouter.POST("/create")
+		authorityRouter.POST("/create", a.authorityService.Create)
 	}
 
 	// 权限组相关
