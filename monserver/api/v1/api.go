@@ -26,7 +26,7 @@ func NewGroup(logger *zap.Logger, systemApi *system.Group, mallApi *mall.Group, 
 }
 
 func (v *Group) InitApi(r *gin.Engine) {
-	r.Use(v.tacker.Handle())
+	// r.Use(v.tacker.Handle())
 	group := r.Group("/api/v1")
 	v.logger.Info("api v1 init start")
 

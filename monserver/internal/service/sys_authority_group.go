@@ -33,7 +33,7 @@ func (s *AuthorityGroupService) Create(c *gin.Context) {
 		return
 	}
 
-	err := s.usecase.Create(c, 1, &req)
+	err := s.usecase.Create(c, 2, &req)
 	if err != nil {
 		s.logger.Error("authorityGroupService.Create", zap.Error(err))
 		response.FailWithError(err, c)
@@ -53,7 +53,7 @@ func (s *AuthorityGroupService) Update(c *gin.Context) {
 		return
 	}
 
-	err := s.usecase.Update(c, 1, &req)
+	err := s.usecase.Update(c, 2, &req)
 	if err != nil {
 		s.logger.Error("authorityGroupService.Update", zap.Error(err))
 		response.FailWithError(err, c)
