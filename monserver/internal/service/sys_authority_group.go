@@ -42,3 +42,23 @@ func (s *AuthorityGroupService) Create(c *gin.Context) {
 
 	response.Ok(c)
 }
+
+// Update 更新权限组
+func (s *AuthorityGroupService) Update(c *gin.Context) {
+
+	var req request.UpdateAuthorityGroupReq
+	if err := c.ShouldBindJSON(&req); err != nil {
+		s.logger.Error("param bind err", zap.Error(err))
+		response.FailWithMessage(util.ValidaMsg(err, &req), c)
+		return
+	}
+
+	err := s.usecase.Update(c, 1, &req)
+	if err != nil {
+		s.logger.Error("authorityGroupService.Update", zap.Error(err))
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.Ok(c)
+}

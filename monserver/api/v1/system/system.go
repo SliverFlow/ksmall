@@ -79,6 +79,7 @@ func (a *Group) InitApi(group *gin.RouterGroup) {
 	authorityGroupRouter := group.Group("/system/authorityGroup")
 	{
 		authorityGroupRouter.POST("/create", a.authorityGroupService.Create)
+		authorityGroupRouter.POST("/update", a.authorityGroupService.Update)
 	}
 
 	a.logger.Info("system api init success")
