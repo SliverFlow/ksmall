@@ -68,3 +68,18 @@ func (r *userRepo) FindRoleId(ctx context.Context, id int64) (int64, error) {
 	}
 	return ref.RoleId, nil
 }
+
+// FindRoleIds 根据用户id查询角色id
+func (r *userRepo) FindRoleIds(ctx context.Context, id int64) ([]int64, error) {
+	var refs []model.UserRoleRef
+	tx := r.DB(ctx).Model(&model.UserRoleRef{})
+	if err := tx.Where(model.UserRoleRefCol.UserId+" = ?", id).
+		Find(&refs).Error; err != nil {
+		return nil, errors.WithStack(err)
+	}
+	var roleIds []int64
+	for _, ref := range refs {
+		roleIds = append(roleIds, ref.RoleId)
+	}
+	return roleIds, nil
+}

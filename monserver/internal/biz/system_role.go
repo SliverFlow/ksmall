@@ -17,14 +17,23 @@ import (
 
 type RoleUsecase struct {
 	tracing.Biz
-	logger   *zap.Logger
-	roleRepo repo.RoleRepo
+	logger        *zap.Logger
+	roleRepo      repo.RoleRepo
+	userRepo      repo.UserRepo
+	authorityRepo repo.AuthorityRepo
 }
 
-func NewRoleUsecase(logger *zap.Logger, roleRepo repo.RoleRepo) *RoleUsecase {
+func NewRoleUsecase(
+	logger *zap.Logger,
+	roleRepo repo.RoleRepo,
+	userRepo repo.UserRepo,
+	authorityRepo repo.AuthorityRepo,
+) *RoleUsecase {
 	return &RoleUsecase{
-		logger:   logger,
-		roleRepo: roleRepo,
+		logger:        logger,
+		roleRepo:      roleRepo,
+		userRepo:      userRepo,
+		authorityRepo: authorityRepo,
 	}
 }
 
@@ -155,4 +164,99 @@ func (u *RoleUsecase) StatusDict(ctx context.Context) []*reply.DictReply {
 	}
 
 	return dict
+}
+
+// CheckAccess 检查用户是否有权限
+func (u *RoleUsecase) CheckAccess(ctx context.Context, userId int64, path string) (bool, error) {
+	// 查询用户信息
+	user, err := u.userRepo.Find(ctx, userId)
+	if err != nil {
+		u.logger.Error("[date repo err] userRepo.Find", zap.Error(err))
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return false, xerror.NewWithMessage("用户不存在")
+		}
+		return false, err
+	}
+
+	// 查询权限信息
+	authority, err := u.authorityRepo.FindByUrl(ctx, path)
+	if err != nil {
+		u.logger.Error("[date repo err] authorityRepo.FindByUrl", zap.Error(err))
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return false, xerror.NewWithMessage("权限不存在")
+		}
+		return false, err
+	}
+	if authority.Status == model.Disable {
+		return false, xerror.NewWithMessage("权限已禁用")
+	}
+	// 不鉴权
+	if authority.Auth == model.AuthorityAuthNo {
+		return true, nil
+	}
+
+	// 查询用户角色信息
+	roleIds, err := u.userRepo.FindRoleIds(ctx, user.Id)
+	if err != nil {
+		u.logger.Error("[date repo err] userRepo.FindRoleIds", zap.Error(err))
+		return false, xerror.NewWithMessage("用户角色查询失败")
+	}
+
+	// 查询角色权限信息
+	authorityIds, err := u.authorityRepo.FindIdsByRoleIds(ctx, roleIds)
+	if err != nil {
+		u.logger.Error("[date repo err] authorityRepo.FindIdsByRoleIds", zap.Error(err))
+		return false, xerror.NewWithMessage("角色权限查询失败")
+	}
+
+	// 鉴权
+	for _, id := range authorityIds {
+		if id == authority.Id {
+			return true, nil
+		}
+	}
+
+	return false, nil
+}
+
+// AllocationAuth 分配权限
+func (u *RoleUsecase) AllocationAuth(ctx context.Context, param *request.RoleAllocationAuthReq) error {
+	role, err := u.roleRepo.Find(ctx, param.RoleId)
+	if err != nil {
+		u.logger.Error("[date repo err] roleRepo.Find", zap.Error(err))
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return xerror.NewWithMessage("角色不存在")
+		}
+		return err
+	}
+	if role.Status == model.Disable {
+		return xerror.NewWithMessage("角色已禁用")
+	}
+
+	// 查询权限信息
+	authorities, err := u.authorityRepo.FindByIds(ctx, param.AuthIds)
+	if err != nil {
+		u.logger.Error("[date repo err] authorityRepo.FindByIds", zap.Error(err))
+		return xerror.NewWithMessage("权限查询失败")
+	}
+	if len(authorities) != len(param.AuthIds) {
+		return xerror.NewWithMessage("权限不存在")
+	}
+
+	var authIds []int64
+	for _, authority := range authorities {
+		if authority.Status == model.Disable {
+			return xerror.NewWithMessage("权限已禁用")
+		}
+		authIds = append(authIds, authority.Id)
+	}
+
+	// 分配权限
+	err = u.roleRepo.AllocationAuth(ctx, role.Id, authIds)
+	if err != nil {
+		u.logger.Error("[date repo err] roleRepo.AllocationAuth", zap.Error(err))
+		return xerror.NewWithMessage("权限分配失败")
+	}
+
+	return nil
 }

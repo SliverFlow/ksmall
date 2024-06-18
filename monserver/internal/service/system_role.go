@@ -136,3 +136,8 @@ func (s *RoleService) StatusDict(c *gin.Context) {
 	dict := s.usecase.StatusDict(c)
 	response.OkWithData(gin.H{"dict": dict}, c)
 }
+
+// AllocationAuth 角色分配权限
+func (s *RoleService) AllocationAuth(c *gin.Context) {
+
+}

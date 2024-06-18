@@ -55,8 +55,45 @@ func (a *authorityRepo) Delete(ctx context.Context, id int64) error {
 func (a *authorityRepo) Find(ctx context.Context, id int64) (*model.Authority, error) {
 	tx := a.db.WithContext(ctx).Model(&model.Authority{})
 	var authority model.Authority
-	if err := tx.Where(model.AuthorityCol.Id+" = ?", id).First(&authority).Error; err != nil {
+	if err := tx.Where(model.AuthorityCol.Id+" = ?", id).
+		Where(model.AuthorityCol.Deleted+" = ?", model.NotDeleted).
+		First(&authority).Error; err != nil {
 		return nil, errors.WithStack(err)
 	}
 	return &authority, nil
+}
+
+// FindByUrl data
+func (a *authorityRepo) FindByUrl(ctx context.Context, url string) (*model.Authority, error) {
+	tx := a.db.WithContext(ctx).Model(&model.Authority{})
+	var authority model.Authority
+	if err := tx.Where(model.AuthorityCol.Url+" = ?", url).
+		Where(model.AuthorityCol.Deleted+" = ?", model.NotDeleted).
+		First(&authority).Error; err != nil {
+		return nil, errors.WithStack(err)
+	}
+	return &authority, nil
+}
+
+// FindIdsByRoleIds data
+func (a *authorityRepo) FindIdsByRoleIds(ctx context.Context, roleIds []int64) ([]int64, error) {
+	var ids []int64
+	tx := a.db.WithContext(ctx).Model(&model.RoleAuthRef{})
+	if err := tx.Where(model.RoleAuthRefCol.RoleId+" in (?)", roleIds).
+		Pluck(model.RoleAuthRefCol.AuthorityId, &ids).Error; err != nil {
+		return nil, errors.WithStack(err)
+	}
+	return ids, nil
+}
+
+// FindByIds data
+func (a *authorityRepo) FindByIds(ctx context.Context, ids []int64) ([]*model.Authority, error) {
+	var authorities []*model.Authority
+	tx := a.db.WithContext(ctx).Model(&model.Authority{})
+	if err := tx.Where(model.AuthorityCol.Id+" in (?)", ids).
+		Where(model.AuthorityCol.Deleted+" = ?", model.NotDeleted).
+		Find(&authorities).Error; err != nil {
+		return nil, errors.WithStack(err)
+	}
+	return authorities, nil
 }

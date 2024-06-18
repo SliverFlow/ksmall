@@ -11,6 +11,7 @@ import (
 
 var ProviderSet = wire.NewSet(
 	middle.NewTacker,
+	middle.NewAuthority,
 	v1.NewGroup,
 	wire.Bind(new(server.ApiGroup), new(*v1.Group)),
 	system.NewGroup,

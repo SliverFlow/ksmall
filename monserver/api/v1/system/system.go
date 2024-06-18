@@ -2,12 +2,14 @@ package system
 
 import (
 	"github.com/SliverFlow/ksmall/monserver/internal/service"
+	"github.com/SliverFlow/ksmall/monserver/middle"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
 
 type Group struct {
 	logger                *zap.Logger
+	authority             *middle.Authority
 	roleService           *service.RoleService
 	userService           *service.UserService
 	categoryService       *service.CategoryService
@@ -24,6 +26,7 @@ func NewGroup(
 	goodService *service.GoodService,
 	authorityService *service.AuthorityService,
 	authorityGroupService *service.AuthorityGroupService,
+	authority *middle.Authority,
 ) *Group {
 	return &Group{
 		logger:                logger,
@@ -33,10 +36,13 @@ func NewGroup(
 		goodService:           goodService,
 		authorityService:      authorityService,
 		authorityGroupService: authorityGroupService,
+		authority:             authority,
 	}
 }
 
 func (a *Group) InitApi(group *gin.RouterGroup) {
+	// group.Use(a.authority.Handle())
+
 	// 角色相关
 	roleRouter := group.Group("/system/role")
 	{
@@ -47,6 +53,7 @@ func (a *Group) InitApi(group *gin.RouterGroup) {
 		roleRouter.POST("/list", a.roleService.List)
 		roleRouter.POST("/dict", a.roleService.Dict)             // 角色字典
 		roleRouter.POST("/statusDict", a.roleService.StatusDict) // 角色状态字典
+		roleRouter.POST("/allocationAuth", a.roleService.AllocationAuth)
 
 	}
 

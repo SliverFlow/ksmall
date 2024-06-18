@@ -107,3 +107,25 @@ func (r *roleRepo) FindByKey(ctx context.Context, key int64) (*model.Role, error
 	}
 	return role, nil
 }
+
+// AllocationAuth 角色分配权限
+func (r *roleRepo) AllocationAuth(ctx context.Context, roleId int64, authIds []int64) error {
+	tx := r.DB(ctx).Model(&model.RoleAuthRef{})
+	if err := tx.Where(model.RoleAuthRefCol.RoleId+" = ?", roleId).
+		Delete(&model.RoleAuthRef{}).Error; err != nil {
+		return errors.WithStack(err)
+	}
+
+	var roleAuthRefs []model.RoleAuthRef
+	for _, authId := range authIds {
+		roleAuthRefs = append(roleAuthRefs, model.RoleAuthRef{
+			RoleId:      roleId,
+			AuthorityId: authId,
+		})
+	}
+
+	if err := tx.Create(&roleAuthRefs).Error; err != nil {
+		return errors.WithStack(err)
+	}
+	return nil
+}

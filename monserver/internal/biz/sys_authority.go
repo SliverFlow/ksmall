@@ -24,10 +24,16 @@ type AuthorityUsecase struct {
 func NewAuthorityUsecase(
 	authorityRepo repo.AuthorityRepo,
 	logger *zap.Logger,
+	authorityGroupRepo repo.AuthorityGroupRepo,
+	userRepo repo.UserRepo,
+	roleRepo repo.RoleRepo,
 ) *AuthorityUsecase {
 	return &AuthorityUsecase{
-		authorityRepo: authorityRepo,
-		logger:        logger,
+		authorityRepo:      authorityRepo,
+		logger:             logger,
+		authorityGroupRepo: authorityGroupRepo,
+		userRepo:           userRepo,
+		roleRepo:           roleRepo,
 	}
 }
 

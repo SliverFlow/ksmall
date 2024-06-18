@@ -20,21 +20,18 @@ func NewAuthority(iAuthority IAuthority) *Authority {
 
 func (a *Authority) Handle() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		c.Set("userId", int64(2))
 		userId, _ := c.Get("userId")
 		path := c.Request.URL.Path
 		ctx := c.Request.Context()
 		access, err := a.iAuthority.CheckAccess(ctx, userId.(int64), path)
 		if err != nil {
-			c.JSON(500, gin.H{
-				"error": err.Error(),
-			})
-			c.Abort()
-			return
-		}
-		if !access {
-			c.JSON(403, gin.H{
-				"error": "Forbidden",
-			})
+			if !access {
+				c.JSON(403, gin.H{"error": "Forbidden"})
+				c.Abort()
+				return
+			}
+			c.JSON(500, gin.H{"error": "Internal Server Error"})
 			c.Abort()
 			return
 		}
