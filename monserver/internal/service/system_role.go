@@ -139,5 +139,19 @@ func (s *RoleService) StatusDict(c *gin.Context) {
 
 // AllocationAuth 角色分配权限
 func (s *RoleService) AllocationAuth(c *gin.Context) {
+	var req request.RoleAllocationAuthReq
+	if err := c.ShouldBindJSON(&req); err != nil {
+		s.logger.Error("param bind err", zap.Error(err))
+		response.FailWithMessage(util.ValidaMsg(err, &req), c)
+		return
+	}
 
+	err := s.usecase.AllocationAuth(c, &req)
+	if err != nil {
+		s.logger.Error("roleService.AllocationAuth", zap.Error(err))
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.Ok(c)
 }

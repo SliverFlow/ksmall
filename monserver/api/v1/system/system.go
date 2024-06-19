@@ -45,6 +45,7 @@ func (a *Group) InitApi(group *gin.RouterGroup) {
 
 	// 角色相关
 	roleRouter := group.Group("/system/role")
+	// roleRouter.Use(a.authority.Handle())
 	{
 		roleRouter.POST("/create", a.roleService.Create)
 		roleRouter.POST("/delete", a.roleService.Delete)

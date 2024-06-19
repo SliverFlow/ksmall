@@ -27,5 +27,5 @@ type RoleListReq struct {
 // RoleAllocationAuthReq 角色分配权限请求入参
 type RoleAllocationAuthReq struct {
 	RoleId  int64   `json:"roleId" binding:"required,min=1" message:"角色id不能为空"`
-	AuthIds []int64 `json:"authIds" binding:"required" message:"权限ids不能为空"`
+	AuthIds []int64 `json:"authIds" binding:"required,min=1" message:"权限ids不能为空"`
 }
