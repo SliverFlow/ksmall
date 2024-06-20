@@ -60,3 +60,15 @@ func (a *authorityGroupRepo) Find(ctx context.Context, id int64) (*model.Authori
 	}
 	return &authorityGroup, nil
 }
+
+// FindAll data
+func (a *authorityGroupRepo) FindAll(ctx context.Context) ([]*model.AuthorityGroup, error) {
+	tx := a.db.WithContext(ctx).Model(&model.AuthorityGroup{})
+	var authorityGroups []*model.AuthorityGroup
+	if err := tx.Where(model.AuthorityCol.Deleted+" = ?", model.NotDeleted).
+		Order(model.AuthorityGroupCol.Sort + " asc").
+		Find(&authorityGroups).Error; err != nil {
+		return nil, errors.WithStack(err)
+	}
+	return authorityGroups, nil
+}

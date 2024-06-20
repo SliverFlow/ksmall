@@ -17,10 +17,11 @@ import (
 
 type RoleUsecase struct {
 	tracing.Biz
-	logger        *zap.Logger
-	roleRepo      repo.RoleRepo
-	userRepo      repo.UserRepo
-	authorityRepo repo.AuthorityRepo
+	logger          *zap.Logger
+	roleRepo        repo.RoleRepo
+	userRepo        repo.UserRepo
+	authorityRepo   repo.AuthorityRepo
+	roleAuthRefRepo repo.RoleAuthRefRepo
 }
 
 func NewRoleUsecase(
@@ -28,15 +29,18 @@ func NewRoleUsecase(
 	roleRepo repo.RoleRepo,
 	userRepo repo.UserRepo,
 	authorityRepo repo.AuthorityRepo,
+	roleAuthRefRepo repo.RoleAuthRefRepo,
 ) *RoleUsecase {
 	return &RoleUsecase{
-		logger:        logger,
-		roleRepo:      roleRepo,
-		userRepo:      userRepo,
-		authorityRepo: authorityRepo,
+		logger:          logger,
+		roleRepo:        roleRepo,
+		userRepo:        userRepo,
+		authorityRepo:   authorityRepo,
+		roleAuthRefRepo: roleAuthRefRepo,
 	}
 }
 
+// Insert 插入角色
 func (u *RoleUsecase) Insert(ctx context.Context, params *request.RoleCreateReq) error {
 	_, err := u.roleRepo.FindByName(ctx, params.Name)
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
@@ -259,4 +263,35 @@ func (u *RoleUsecase) AllocationAuth(ctx context.Context, param *request.RoleAll
 	}
 
 	return nil
+}
+
+// FindAuthority 查询权限
+func (u *RoleUsecase) FindAuthority(ctx context.Context, roleId int64) ([]*model.Authority, error) {
+	role, err := u.roleRepo.Find(ctx, roleId)
+	if err != nil {
+		u.logger.Error("[date repo err] roleRepo.Find", zap.Error(err))
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, xerror.NewWithMessage("角色不存在")
+		}
+		return nil, err
+	}
+
+	authRefs, err := u.roleAuthRefRepo.FindByRoleId(ctx, role.Id)
+	if err != nil {
+		u.logger.Error("[date repo err] roleAuthRefRepo.FindByRoleId", zap.Error(err))
+		return nil, xerror.NewWithMessage("角色权限查询失败")
+	}
+
+	var authIds []int64
+	for _, authRef := range authRefs {
+		authIds = append(authIds, authRef.AuthorityId)
+	}
+
+	authorities, err := u.authorityRepo.FindByIds(ctx, authIds)
+	if err != nil {
+		u.logger.Error("[date repo err] authorityRepo.FindByIds", zap.Error(err))
+		return nil, xerror.NewWithMessage("权限查询失败")
+	}
+
+	return authorities, nil
 }

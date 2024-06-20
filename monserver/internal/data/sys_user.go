@@ -83,3 +83,15 @@ func (r *userRepo) FindRoleIds(ctx context.Context, id int64) ([]int64, error) {
 	}
 	return roleIds, nil
 }
+
+// FindListByUserIds 根据用户ids查询角色列表
+func (r *userRepo) FindListByUserIds(ctx context.Context, userIds []int64) ([]*model.User, error) {
+	var users []*model.User
+	tx := r.DB(ctx).Model(&model.User{})
+	if err := tx.Where(model.UserCol.Id+" in (?)", userIds).
+		Where(model.UserCol.Deleted+" = ?", model.NotDeleted).
+		Find(&users).Error; err != nil {
+		return nil, errors.WithStack(err)
+	}
+	return users, nil
+}

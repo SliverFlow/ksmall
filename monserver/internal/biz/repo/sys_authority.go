@@ -13,4 +13,5 @@ type AuthorityRepo interface {
 	FindByUrl(ctx context.Context, url string) (*model.Authority, error)
 	FindIdsByRoleIds(ctx context.Context, roleIds []int64) ([]int64, error)
 	FindByIds(ctx context.Context, ids []int64) ([]*model.Authority, error)
+	FindByAuthorityGroupIds(ctx context.Context, authorityGroupIds []int64) ([]*model.Authority, error)
 }

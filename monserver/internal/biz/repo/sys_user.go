@@ -12,4 +12,5 @@ type UserRepo interface {
 	Find(ctx context.Context, id int64) (*model.User, error)
 	FindRoleId(ctx context.Context, id int64) (int64, error)
 	FindRoleIds(ctx context.Context, id int64) ([]int64, error)
+	FindListByUserIds(ctx context.Context, userIds []int64) ([]*model.User, error)
 }

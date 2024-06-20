@@ -86,12 +86,25 @@ func (a *authorityRepo) FindIdsByRoleIds(ctx context.Context, roleIds []int64) (
 	return ids, nil
 }
 
-// FindByIds data
+// FindByIds data 根据ids查询
 func (a *authorityRepo) FindByIds(ctx context.Context, ids []int64) ([]*model.Authority, error) {
 	var authorities []*model.Authority
 	tx := a.db.WithContext(ctx).Model(&model.Authority{})
 	if err := tx.Where(model.AuthorityCol.Id+" in (?)", ids).
 		Where(model.AuthorityCol.Deleted+" = ?", model.NotDeleted).
+		Order(model.AuthorityCol.Sort + " asc").
+		Find(&authorities).Error; err != nil {
+		return nil, errors.WithStack(err)
+	}
+	return authorities, nil
+}
+
+// FindByAuthorityGroupIds data
+func (a *authorityRepo) FindByAuthorityGroupIds(ctx context.Context, authorityGroupIds []int64) ([]*model.Authority, error) {
+	var authorities []*model.Authority
+	tx := a.db.WithContext(ctx).Model(&model.Authority{})
+	if err := tx.Where(model.AuthorityCol.AuthorityGroupId+" in (?)", authorityGroupIds).
+		Order(model.AuthorityCol.Sort + " asc").
 		Find(&authorities).Error; err != nil {
 		return nil, errors.WithStack(err)
 	}

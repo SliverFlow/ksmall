@@ -28,27 +28,29 @@ const (
 )
 
 var AuthorityCol = struct {
-	Id       string
-	Name     string
-	Url      string
-	Auth     string
-	Remark   string
-	Status   string
-	Sort     string
-	Deleted  string
-	CreateAt string
-	UpdateAt string
-	DeleteAt string
+	Id               string
+	AuthorityGroupId string
+	Name             string
+	Url              string
+	Auth             string
+	Remark           string
+	Status           string
+	Sort             string
+	Deleted          string
+	CreateAt         string
+	UpdateAt         string
+	DeleteAt         string
 }{
-	Id:       "id",
-	Name:     "name",
-	Url:      "url",
-	Auth:     "auth",
-	Remark:   "remark",
-	Status:   "status",
-	Sort:     "sort",
-	Deleted:  "deleted",
-	CreateAt: "create_at",
-	UpdateAt: "update_at",
-	DeleteAt: "delete_at",
+	Id:               "id",
+	Name:             "name",
+	AuthorityGroupId: "authority_group_id",
+	Url:              "url",
+	Auth:             "auth",
+	Remark:           "remark",
+	Status:           "status",
+	Sort:             "sort",
+	Deleted:          "deleted",
+	CreateAt:         "create_at",
+	UpdateAt:         "update_at",
+	DeleteAt:         "delete_at",
 }
