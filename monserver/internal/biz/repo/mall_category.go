@@ -11,4 +11,5 @@ type CategoryRepo interface {
 	Delete(ctx context.Context, id int64) error
 	Find(ctx context.Context, id int64) (*model.Category, error)
 	FindChildrenList(ctx context.Context, parentId int64) ([]*model.Category, error)
+	FindAll(ctx context.Context) ([]*model.Category, error)
 }

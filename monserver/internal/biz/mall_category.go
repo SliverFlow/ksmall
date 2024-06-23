@@ -5,6 +5,7 @@ import (
 	"github.com/SliverFlow/ksmall/monserver/common/xerror"
 	"github.com/SliverFlow/ksmall/monserver/internal/biz/repo"
 	"github.com/SliverFlow/ksmall/monserver/internal/model"
+	"github.com/SliverFlow/ksmall/monserver/internal/model/reply"
 	"github.com/SliverFlow/ksmall/monserver/internal/model/request"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
@@ -85,4 +86,68 @@ func (uc *CategoryUsecase) checkExist(ctx context.Context, categoryId int64) (bo
 		return false, err
 	}
 	return true, nil
+}
+
+// TreeList 获取分类树
+func (uc *CategoryUsecase) TreeList(ctx context.Context) ([]*reply.CategoryTreeListReply, error) {
+	categories, err := uc.categoryRepo.FindAll(ctx)
+	if err != nil {
+		uc.logger.Error("categoryRepo.FindAll failed", zap.Error(err))
+		return nil, xerror.NewWithMessage("获取分类列表失败")
+	}
+
+	// 构建分类树
+	list := uc.buildChildrenList(ctx, 0, categories)
+	return list, nil
+}
+
+// buildChildrenList 构建子分类列表
+func (uc *CategoryUsecase) buildChildrenList(ctx context.Context, parentId int64, list []*model.Category) []*reply.CategoryTreeListReply {
+	var childrenList []*reply.CategoryTreeListReply
+	for _, category := range list {
+		if category.ParentId == parentId {
+			childrenList = append(childrenList, &reply.CategoryTreeListReply{
+				Id:       category.Id,
+				Name:     category.Name,
+				Icon:     category.Icon,
+				IsIndex:  category.IsIndex,
+				Level:    category.Level,
+				Sort:     category.Sort,
+				Children: uc.buildChildrenList(ctx, category.Id, list),
+			})
+		}
+	}
+	return childrenList
+}
+
+// Delete 删除分类
+func (uc *CategoryUsecase) Delete(ctx context.Context, categoryId int64) error {
+	// 检查分类是否存在
+	exist, err := uc.checkExist(ctx, categoryId)
+	if err != nil && !exist {
+		uc.logger.Error("checkExist failed", zap.Error(err))
+		return xerror.NewWithMessage("分类不存在")
+	}
+
+	// 删除分类
+	err = uc.categoryRepo.Delete(ctx, categoryId)
+	if err != nil {
+		uc.logger.Error("categoryRepo.Delete failed", zap.Error(err))
+		return xerror.NewWithMessage("删除分类失败")
+	}
+
+	return nil
+}
+
+// Find 获取分类
+func (uc *CategoryUsecase) Find(ctx context.Context, categoryId int64) (*model.Category, error) {
+	category, err := uc.categoryRepo.Find(ctx, categoryId)
+	if err != nil {
+		uc.logger.Error("categoryRepo.Find failed", zap.Error(err))
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, xerror.NewWithMessage("分类不存在")
+		}
+		return nil, xerror.NewWithMessage("获取分类失败")
+	}
+	return category, nil
 }

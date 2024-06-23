@@ -67,3 +67,14 @@ func (c *categoryRepo) FindChildrenList(ctx context.Context, parentId int64) ([]
 	}
 	return categories, nil
 }
+
+// FindAll find all categories
+func (c *categoryRepo) FindAll(ctx context.Context) ([]*model.Category, error) {
+	var categories []*model.Category
+	tx := c.DB(ctx).Model(&model.Category{})
+	if err := tx.Where(model.CategoryCol.Deleted+" = ?", model.NotDeleted).
+		Find(&categories).Error; err != nil {
+		return nil, errors.WithStack(err)
+	}
+	return categories, nil
+}

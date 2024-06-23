@@ -68,6 +68,9 @@ func (a *Group) InitApi(group *gin.RouterGroup) {
 	categoryRouter := group.Group("/system/category")
 	{
 		categoryRouter.POST("/create", a.categoryService.Create)
+		categoryRouter.POST("/treeList", a.categoryService.TreeList)
+		categoryRouter.POST("/delete", a.categoryService.Delete)
+		categoryRouter.POST("/find", a.categoryService.Find)
 
 	}
 
