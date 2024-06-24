@@ -151,3 +151,47 @@ func (uc *CategoryUsecase) Find(ctx context.Context, categoryId int64) (*model.C
 	}
 	return category, nil
 }
+
+// Update 更新分类
+func (uc *CategoryUsecase) Update(ctx context.Context, param *request.UpdateCategoryReq) error {
+
+	category, err := uc.categoryRepo.Find(ctx, param.Id)
+	if err != nil {
+		uc.logger.Error("categoryRepo.Find failed", zap.Error(err))
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return xerror.NewWithMessage("当前分类不存在")
+		}
+		return xerror.NewWithMessage("查询分类失败")
+	}
+
+	parentCategory, err := uc.categoryRepo.Find(ctx, *param.ParenId)
+	if err != nil {
+		uc.logger.Error("categoryRepo.Find failed", zap.Error(err))
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return xerror.NewWithMessage("所选父分类分类不存在")
+		}
+		return xerror.NewWithMessage("查询分类失败")
+	}
+	if parentCategory.Status == model.Disable {
+		return xerror.NewWithMessage("所选父分类禁用中")
+	}
+
+	updateCategory := &model.Category{
+		Id:       category.Id,
+		Name:     param.Name,
+		ParentId: *param.ParenId,
+		Level:    parentCategory.Level + 1,
+		Icon:     param.Icon,
+		IsIndex:  *param.IsIndex,
+		Sort:     param.Sort,
+		Status:   *param.Status,
+		UpdateAt: model.Now(),
+	}
+
+	err = uc.categoryRepo.Update(ctx, updateCategory)
+	if err != nil {
+		return xerror.NewWithMessage("分类更新失败")
+	}
+
+	return nil
+}

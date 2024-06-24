@@ -116,3 +116,22 @@ func (uc *AuthorityUsecase) Create(ctx context.Context, userId int64, param *req
 	}
 	return nil
 }
+
+// Delete 删除权限
+func (uc *AuthorityUsecase) Delete(ctx context.Context, id int64) error {
+	authority, err := uc.authorityRepo.Find(ctx, id)
+	if err != nil {
+		uc.logger.Error("uc.authorityRepo.Find", zap.Error(err))
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return xerror.NewWithMessage("此权限不存在")
+		}
+		return xerror.NewWithMessage("权限查询失败")
+	}
+
+	err = uc.authorityRepo.Delete(ctx, authority.Id)
+	if err != nil {
+		return xerror.NewWithMessage("权限删除失败")
+	}
+
+	return nil
+}

@@ -41,3 +41,22 @@ func (a *AuthorityService) Create(c *gin.Context) {
 
 	response.Ok(c)
 }
+
+// Delete 删除权限
+func (a *AuthorityService) Delete(c *gin.Context) {
+	var req request.IdReq
+	if err := c.ShouldBindJSON(&req); err != nil {
+		a.logger.Error("param bind err", zap.Error(err))
+		response.FailWithMessage(util.ValidaMsg(err, &req), c)
+		return
+	}
+
+	err := a.usecase.Delete(c, req.Id)
+	if err != nil {
+		a.logger.Error("authorityService.Insert", zap.Error(err))
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.Ok(c)
+}

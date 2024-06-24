@@ -89,3 +89,22 @@ func (a *CategoryService) Find(c *gin.Context) {
 
 	response.OkWithData(category, c)
 }
+
+// Update 更新分类
+func (a *CategoryService) Update(c *gin.Context) {
+	var req request.UpdateCategoryReq
+	if err := c.ShouldBindJSON(&req); err != nil {
+		a.logger.Error("param bind err", zap.Error(err))
+		response.FailWithMessage(util.ValidaMsg(err, &req), c)
+		return
+	}
+
+	err := a.usecase.Update(c, &req)
+	if err != nil {
+		a.logger.Error("categoryService.Find", zap.Error(err))
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.Ok(c)
+}

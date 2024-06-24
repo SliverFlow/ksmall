@@ -57,11 +57,22 @@ func (a *Group) InitApi(group *gin.RouterGroup) {
 		roleRouter.POST("/allocationAuth", a.roleService.AllocationAuth)
 
 	}
-
 	// 用户相关
 	userRouter := group.Group("/system/user")
 	{
 		userRouter.POST("/create", a.userService.Create)
+	}
+	// 权限相关
+	authorityRouter := group.Group("/system/authority")
+	{
+		authorityRouter.POST("/create", a.authorityService.Create)
+		authorityRouter.POST("/delete", a.authorityService.Delete)
+	}
+	// 权限组相关
+	authorityGroupRouter := group.Group("/system/authorityGroup")
+	{
+		authorityGroupRouter.POST("/create", a.authorityGroupService.Create)
+		authorityGroupRouter.POST("/update", a.authorityGroupService.Update)
 	}
 
 	// 分类相关
@@ -71,26 +82,12 @@ func (a *Group) InitApi(group *gin.RouterGroup) {
 		categoryRouter.POST("/treeList", a.categoryService.TreeList)
 		categoryRouter.POST("/delete", a.categoryService.Delete)
 		categoryRouter.POST("/find", a.categoryService.Find)
-
+		categoryRouter.POST("/update", a.categoryService.Update)
 	}
-
 	// 商品相关
 	goodRouter := group.Group("/system/good")
 	{
 		goodRouter.POST("/create", a.goodService.Create)
-	}
-
-	// 权限相关
-	authorityRouter := group.Group("/system/authority")
-	{
-		authorityRouter.POST("/create", a.authorityService.Create)
-	}
-
-	// 权限组相关
-	authorityGroupRouter := group.Group("/system/authorityGroup")
-	{
-		authorityGroupRouter.POST("/create", a.authorityGroupService.Create)
-		authorityGroupRouter.POST("/update", a.authorityGroupService.Update)
 	}
 
 	a.logger.Info("system api init success")
