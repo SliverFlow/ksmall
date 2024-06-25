@@ -73,6 +73,7 @@ func (a *Group) InitApi(group *gin.RouterGroup) {
 	{
 		authorityGroupRouter.POST("/create", a.authorityGroupService.Create)
 		authorityGroupRouter.POST("/update", a.authorityGroupService.Update)
+		authorityGroupRouter.POST("/delete", a.authorityGroupService.Delete)
 	}
 
 	// 分类相关

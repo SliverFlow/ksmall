@@ -214,3 +214,32 @@ func (uc *AuthorityGroupUsecase) FindAllHasAuthority(ctx context.Context) ([]*re
 
 	return authGroupHasAuthorityReplies, nil
 }
+
+// Delete 删除
+func (uc *AuthorityGroupUsecase) Delete(ctx context.Context, id int64) error {
+	authorityGroup, err := uc.authorityGroupRepo.Find(ctx, id)
+	if err != nil {
+		uc.logger.Error("uc.authorityGroupRepo.FindAll", zap.Error(err))
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return xerror.NewWithMessage("权限组不存在")
+		}
+		return xerror.NewWithMessage("查询权限组失败")
+	}
+
+	authorities, err := uc.authorityRepo.FindByAuthorityGroupIds(ctx, []int64{id})
+	if err != nil {
+		uc.logger.Error("uc.authorityRepo.FindByAuthorityGroupIds", zap.Error(err))
+		return xerror.NewWithMessage("查询权限失败")
+	}
+
+	if len(authorities) > 0 {
+		return xerror.NewWithMessage("当前组下含有未删除的权限")
+	}
+
+	err = uc.authorityGroupRepo.Delete(ctx, authorityGroup.Id)
+	if err != nil {
+		return xerror.NewWithMessage("权限组删除失败")
+	}
+
+	return nil
+}

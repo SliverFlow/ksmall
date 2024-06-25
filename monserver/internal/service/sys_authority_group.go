@@ -62,3 +62,22 @@ func (s *AuthorityGroupService) Update(c *gin.Context) {
 
 	response.Ok(c)
 }
+
+// Delete 删除权限组
+func (s *AuthorityGroupService) Delete(c *gin.Context) {
+	var req request.IdReq
+	if err := c.ShouldBindJSON(&req); err != nil {
+		s.logger.Error("param bind err", zap.Error(err))
+		response.FailWithMessage(util.ValidaMsg(err, &req), c)
+		return
+	}
+
+	err := s.usecase.Delete(c, req.Id)
+	if err != nil {
+		s.logger.Error("authorityGroupService.Update", zap.Error(err))
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.Ok(c)
+}
