@@ -81,3 +81,22 @@ func (s *AuthorityGroupService) Delete(c *gin.Context) {
 
 	response.Ok(c)
 }
+
+// Find 查询权限组
+func (s *AuthorityGroupService) Find(c *gin.Context) {
+	var req request.IdReq
+	if err := c.ShouldBindJSON(&req); err != nil {
+		s.logger.Error("param bind err", zap.Error(err))
+		response.FailWithMessage(util.ValidaMsg(err, &req), c)
+		return
+	}
+
+	reply, err := s.usecase.Find(c, req.Id)
+	if err != nil {
+		s.logger.Error("authorityGroupService.Find", zap.Error(err))
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.OkWithData(reply, c)
+}

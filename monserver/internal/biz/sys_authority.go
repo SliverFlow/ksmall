@@ -5,6 +5,7 @@ import (
 	"github.com/SliverFlow/ksmall/monserver/common/xerror"
 	"github.com/SliverFlow/ksmall/monserver/internal/biz/repo"
 	"github.com/SliverFlow/ksmall/monserver/internal/model"
+	"github.com/SliverFlow/ksmall/monserver/internal/model/reply"
 	"github.com/SliverFlow/ksmall/monserver/internal/model/request"
 	"github.com/SliverFlow/ksmall/monserver/tracing"
 	"github.com/pkg/errors"
@@ -134,4 +135,9 @@ func (uc *AuthorityUsecase) Delete(ctx context.Context, id int64) error {
 	}
 
 	return nil
+}
+
+// Find 查询权限
+func (uc *AuthorityUsecase) Find(ctx context.Context, id int64) (*reply.AuthorityFindReply, error) {
+	return nil, nil
 }

@@ -243,3 +243,48 @@ func (uc *AuthorityGroupUsecase) Delete(ctx context.Context, id int64) error {
 
 	return nil
 }
+
+// Find 查询权限组
+func (uc *AuthorityGroupUsecase) Find(ctx context.Context, id int64) (*reply.AuthorityGroupFindReply, error) {
+	authorityGroup, err := uc.authorityGroupRepo.Find(ctx, id)
+	if err != nil {
+		uc.logger.Error("uc.authorityGroupRepo.Find", zap.Error(err))
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, xerror.NewWithMessage("权限组不存在")
+		}
+		return nil, xerror.NewWithMessage("查询权限组失败")
+	}
+
+	resp := &reply.AuthorityGroupFindReply{
+		Id:       authorityGroup.Id,
+		Name:     authorityGroup.Name,
+		Remark:   authorityGroup.Remark,
+		Status:   authorityGroup.Status,
+		Sort:     authorityGroup.Sort,
+		Username: "未知用户",
+		RoleName: "未知角色",
+		CreateAt: authorityGroup.CreateAt,
+	}
+
+	user, err := uc.userRepo.Find(ctx, authorityGroup.UserId)
+	if err != nil {
+		uc.logger.Error("uc.userRepo.Find", zap.Error(err))
+		return resp, nil
+	}
+
+	roleId, err := uc.userRepo.FindRoleId(ctx, user.Id)
+	if err != nil {
+		uc.logger.Error("uc.userRepo.FindRoleId", zap.Error(err))
+		return resp, nil
+	}
+
+	role, err := uc.roleRepo.Find(ctx, roleId)
+	if err != nil {
+		uc.logger.Error("uc.userRepo.FindRoleId", zap.Error(err))
+		return resp, nil
+	}
+
+	resp.Username = user.Nickname
+	resp.RoleName = role.Name
+	return resp, nil
+}
