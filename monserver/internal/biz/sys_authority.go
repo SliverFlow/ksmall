@@ -139,5 +139,86 @@ func (uc *AuthorityUsecase) Delete(ctx context.Context, id int64) error {
 
 // Find 查询权限
 func (uc *AuthorityUsecase) Find(ctx context.Context, id int64) (*reply.AuthorityFindReply, error) {
-	return nil, nil
+	authority, err := uc.authorityRepo.Find(ctx, id)
+	if err != nil {
+		uc.logger.Error("uc.authorityRepo.Find", zap.Error(err))
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, xerror.NewWithMessage("此权限不存在")
+		}
+		return nil, xerror.NewWithMessage("权限查询失败")
+	}
+
+	resp := &reply.AuthorityFindReply{
+		Id:       authority.Id,
+		Name:     authority.Name,
+		Remark:   authority.Remark,
+		Url:      authority.Url,
+		Auth:     authority.Auth,
+		Status:   authority.Status,
+		Sort:     authority.Sort,
+		Username: "未知用户",
+		RoleName: "未知角色",
+		CreateAt: authority.CreateAt,
+	}
+
+	user, err := uc.userRepo.Find(ctx, authority.UserId)
+	if err != nil {
+		return resp, nil
+	}
+	roleId, err := uc.userRepo.FindRoleId(ctx, user.Id)
+	if err != nil {
+		return resp, nil
+	}
+	role, err := uc.roleRepo.Find(ctx, roleId)
+	if err != nil {
+		return resp, nil
+	}
+
+	resp.Username = user.Nickname
+	resp.RoleName = role.Name
+
+	return resp, nil
+}
+
+// Update 更新权限
+func (uc *AuthorityUsecase) Update(ctx context.Context, param *request.UpdateAuthorityReq) error {
+	authorityGroup, err := uc.authorityGroupRepo.Find(ctx, param.AuthorityGroupId)
+	if err != nil {
+		uc.logger.Error("uc.authorityGroupRepo.Find", zap.Error(err))
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return xerror.NewWithMessage("权限组不存在")
+		}
+		return xerror.NewWithMessage("权限组查询失败")
+	}
+	if authorityGroup.Status != model.Enable {
+		return xerror.NewWithMessage("权限组状态未开启")
+	}
+
+	authority, err := uc.authorityRepo.Find(ctx, param.Id)
+	if err != nil {
+		uc.logger.Error("uc.authorityRepo.Find", zap.Error(err))
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return xerror.NewWithMessage("权限不存在")
+		}
+		return xerror.NewWithMessage("权限查询失败")
+	}
+	updateAuthority := model.Authority{
+		Id:               authority.Id,
+		UserId:           authority.UserId,
+		AuthorityGroupId: param.AuthorityGroupId,
+		Name:             param.Name,
+		Url:              param.Url,
+		Auth:             *param.Auth,
+		Remark:           param.Remark,
+		Status:           param.Sort,
+		Sort:             param.Sort,
+		UpdateAt:         model.Now(),
+	}
+	_, err = uc.authorityRepo.Update(ctx, &updateAuthority)
+	if err != nil {
+		uc.logger.Error("uc.authorityRepo.Update", zap.Error(err))
+		return xerror.NewWithMessage("权限更新失败")
+	}
+
+	return nil
 }

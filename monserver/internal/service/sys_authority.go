@@ -61,7 +61,24 @@ func (a *AuthorityService) Delete(c *gin.Context) {
 	response.Ok(c)
 }
 
-// Update
+// Update 更新权限
+func (a *AuthorityService) Update(c *gin.Context) {
+	var req request.UpdateAuthorityReq
+	if err := c.ShouldBindJSON(&req); err != nil {
+		a.logger.Error("param bind err", zap.Error(err))
+		response.FailWithMessage(util.ValidaMsg(err, &req), c)
+		return
+	}
+
+	err := a.usecase.Update(c, &req)
+	if err != nil {
+		a.logger.Error("authorityService.update", zap.Error(err))
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.Ok(c)
+}
 
 // Find 查询权限
 func (a *AuthorityService) Find(c *gin.Context) {

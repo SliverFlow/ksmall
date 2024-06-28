@@ -31,7 +31,7 @@ type AuthorityFindReply struct {
 	Name     string `json:"name"`     // 权限名称
 	Remark   string `json:"remark"`   // 备注
 	Url      string `json:"url"`      // URL
-	Auth     string `json:"auth"`     // 权限
+	Auth     int64  `json:"auth"`     // 权限
 	Status   int64  `json:"status"`   // 状态
 	Sort     int64  `json:"sort"`     // 排序
 	RoleName string `json:"roleName"` // 创建人角色名称
