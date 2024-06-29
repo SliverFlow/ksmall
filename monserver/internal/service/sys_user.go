@@ -39,3 +39,22 @@ func (s *UserService) Create(c *gin.Context) {
 
 	response.Ok(c)
 }
+
+// Delete 通过id删除用户
+func (s *UserService) Delete(c *gin.Context) {
+	var req request.IdReq
+	if err := c.ShouldBindJSON(&req); err != nil {
+		s.logger.Error("param bind err", zap.Error(err))
+		response.FailWithMessage(util.ValidaMsg(err, &req), c)
+		return
+	}
+
+	err := s.usecase.Delete(c, req.Id)
+	if err != nil {
+		s.logger.Error("userService.Delete", zap.Error(err))
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.Ok(c)
+}

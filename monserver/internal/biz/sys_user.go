@@ -68,3 +68,22 @@ func (u *UserUsecase) Insert(ctx context.Context, param *request.UserCreateReq) 
 	}
 	return nil
 }
+
+// Delete 通过ID删除用户
+func (u *UserUsecase) Delete(ctx context.Context, id int64) error {
+	user, err := u.userRepo.Find(ctx, id)
+	if err != nil {
+		u.logger.Error("[date repo err] userRepo.Find", zap.Error(err))
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return xerror.NewWithMessage("用户不存在")
+		}
+		return xerror.NewWithMessage("用户查询失败")
+	}
+
+	err = u.userRepo.Delete(ctx, user.Id)
+	if err != nil {
+		u.logger.Error("[date repo err] userRepo.Delete", zap.Error(err))
+		return xerror.NewWithMessage("用户删除失败")
+	}
+	return nil
+}
