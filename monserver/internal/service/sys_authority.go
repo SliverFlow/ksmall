@@ -1,11 +1,11 @@
 package service
 
 import (
+	"github.com/SliverFlow/core/tracing"
 	"github.com/SliverFlow/ksmall/monserver/common/response"
 	"github.com/SliverFlow/ksmall/monserver/common/util"
 	"github.com/SliverFlow/ksmall/monserver/internal/biz"
 	"github.com/SliverFlow/ksmall/monserver/internal/model/request"
-	"github.com/SliverFlow/ksmall/monserver/tracing"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )

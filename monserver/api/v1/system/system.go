@@ -1,15 +1,15 @@
 package system
 
 import (
+	"github.com/SliverFlow/core/middleware"
 	"github.com/SliverFlow/ksmall/monserver/internal/service"
-	"github.com/SliverFlow/ksmall/monserver/middle"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
 
 type Group struct {
 	logger                *zap.Logger
-	authority             *middle.Authority
+	authority             *middleware.Authority
 	roleService           *service.RoleService
 	userService           *service.UserService
 	categoryService       *service.CategoryService
@@ -26,7 +26,7 @@ func NewGroup(
 	goodService *service.GoodService,
 	authorityService *service.AuthorityService,
 	authorityGroupService *service.AuthorityGroupService,
-	authority *middle.Authority,
+	authority *middleware.Authority,
 ) *Group {
 	return &Group{
 		logger:                logger,

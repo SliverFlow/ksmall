@@ -1,9 +1,9 @@
 package v1
 
 import (
+	"github.com/SliverFlow/core/middleware"
 	"github.com/SliverFlow/ksmall/monserver/api/v1/mall"
 	"github.com/SliverFlow/ksmall/monserver/api/v1/system"
-	"github.com/SliverFlow/ksmall/monserver/middle"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
@@ -13,10 +13,10 @@ type Group struct {
 
 	SystemApi *system.Group
 	MallApi   *mall.Group
-	tacker    *middle.Tacker
+	tacker    *middleware.Tacker
 }
 
-func NewGroup(logger *zap.Logger, systemApi *system.Group, mallApi *mall.Group, tacker *middle.Tacker) *Group {
+func NewGroup(logger *zap.Logger, systemApi *system.Group, mallApi *mall.Group, tacker *middleware.Tacker) *Group {
 	return &Group{
 		logger:    logger,
 		SystemApi: systemApi,

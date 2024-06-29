@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"github.com/SliverFlow/core/initialize"
-	"github.com/SliverFlow/ksmall/monserver/initc"
 	"github.com/SliverFlow/ksmall/monserver/internal/config"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -25,7 +24,7 @@ func main() {
 		panic(err)
 	}
 
-	tracer := initc.Tracer(conf.Jaeger)
+	tracer := initialize.Tracer(conf.Jaeger)
 	defer tracer()
 
 	if port != nil && *port != 0 {

@@ -2,12 +2,12 @@ package biz
 
 import (
 	"context"
+	"github.com/SliverFlow/core/tracing"
 	"github.com/SliverFlow/ksmall/monserver/common/xerror"
 	"github.com/SliverFlow/ksmall/monserver/internal/biz/repo"
 	"github.com/SliverFlow/ksmall/monserver/internal/model"
 	"github.com/SliverFlow/ksmall/monserver/internal/model/reply"
 	"github.com/SliverFlow/ksmall/monserver/internal/model/request"
-	"github.com/SliverFlow/ksmall/monserver/tracing"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
 	"gorm.io/gorm"

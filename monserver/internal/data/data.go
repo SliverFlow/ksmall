@@ -3,7 +3,6 @@ package data
 import (
 	"context"
 	"github.com/SliverFlow/core/initialize"
-	"github.com/SliverFlow/ksmall/monserver/initc"
 	"github.com/SliverFlow/ksmall/monserver/internal/config"
 	"github.com/redis/go-redis/v9"
 	clientv3 "go.etcd.io/etcd/client/v3"
@@ -56,7 +55,7 @@ func NewRDB(c *config.Possess) *redis.Client {
 }
 
 func NewEtcd(c *config.Possess) *clientv3.Client {
-	client, err := initc.Etcd(c.Etcd)
+	client, err := initialize.Etcd(c.Etcd)
 	if err != nil {
 		panic(err)
 		return nil
