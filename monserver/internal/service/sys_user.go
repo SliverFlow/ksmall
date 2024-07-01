@@ -58,3 +58,22 @@ func (s *UserService) Delete(c *gin.Context) {
 
 	response.Ok(c)
 }
+
+// Find 通过id查找用户
+func (s *UserService) Find(c *gin.Context) {
+	var req request.IdReq
+	if err := c.ShouldBindJSON(&req); err != nil {
+		s.logger.Error("param bind err", zap.Error(err))
+		response.FailWithMessage(util.ValidaMsg(err, &req), c)
+		return
+	}
+
+	user, err := s.usecase.Find(c, req.Id)
+	if err != nil {
+		s.logger.Error("userService.Find", zap.Error(err))
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.OkWithData(gin.H{"user": user}, c)
+}

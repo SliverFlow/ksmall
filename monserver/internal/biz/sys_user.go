@@ -87,3 +87,16 @@ func (u *UserUsecase) Delete(ctx context.Context, id int64) error {
 	}
 	return nil
 }
+
+// Find 查询用户
+func (u *UserUsecase) Find(ctx context.Context, id int64) (*model.User, error) {
+	user, err := u.userRepo.Find(ctx, id)
+	if err != nil {
+		u.logger.Error("[date repo err] userRepo.Find", zap.Error(err))
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, xerror.NewWithMessage("用户不存在")
+		}
+		return nil, xerror.NewWithMessage("用户查询失败")
+	}
+	return user, nil
+}

@@ -62,6 +62,8 @@ func (a *Group) InitApi(group *gin.RouterGroup) {
 	{
 		userRouter.POST("/create", a.userService.Create)
 		userRouter.POST("/delete", a.userService.Delete)
+		userRouter.POST("/find", a.userService.Find)
+
 	}
 	// 权限相关
 	authorityRouter := group.Group("/system/authority")
