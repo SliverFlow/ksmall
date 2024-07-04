@@ -77,3 +77,13 @@ func (s *UserService) Find(c *gin.Context) {
 
 	response.OkWithData(gin.H{"user": user}, c)
 }
+
+// Update 更新用户信息
+func (s *UserService) Update(c *gin.Context) {
+	var req request.UpdateUserReq
+	if err := c.ShouldBindJSON(&req); err != nil {
+		s.logger.Error("param bind err", zap.Error(err))
+		response.FailWithMessage(util.ValidaMsg(err, &req), c)
+		return
+	}
+}
